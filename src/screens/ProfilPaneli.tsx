@@ -13,11 +13,14 @@ import type { AppState, Page } from "../types/domain";
 interface ProfilPaneliProps {
   state: AppState;
   navigate: (page: Page) => void;
+  setSearchQuery: (q: string) => void;
 }
 
 export function ProfilPaneli(props: ProfilPaneliProps) {
-  const { state, navigate } = props;
+  const { state, navigate, setSearchQuery } = props;
   const [drawerOpen, setDrawerOpen] = useState(true);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
 
   return (
     <>
@@ -64,6 +67,12 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
                       </button>
       </li>
       <li>
+      <button className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('errors')}>
+      <span className="material-symbols-outlined">error_outline</span>
+                          Hatalar ve Boş Durumlar
+                      </button>
+      </li>
+      <li>
       <button className="flex items-center gap-sm px-6 py-3 text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 bg-slate-100 dark:bg-slate-800 transition-colors duration-150 ease-in-out w-full text-left">
       <span className="material-symbols-outlined">person</span>
                           Profil
@@ -76,16 +85,16 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <div className="pl-md">
       <div className="relative w-64">
       <span className="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-      <input className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-xs focus:outline-none focus:border-blue-500 transition-all duration-200 text-slate-700 dark:text-slate-300" placeholder="Ara..." type="text" />
+      <input className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-full text-xs focus:outline-none focus:border-blue-500 transition-all duration-200 text-slate-700 dark:text-slate-300" placeholder="Ara..." type="text" value={state.searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
       </div>
       </div>
       <div className="flex items-center gap-md">
       <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-700 transition-colors duration-200" onClick={() => navigate('add-lead')}>Hızlı Ekle</button>
       <div className="flex items-center gap-sm text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-md">
-      <button aria-label="Bildirimler" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
+      <button aria-label="Bildirimler" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center" onClick={() => setNotifOpen(prev => !prev)}>
       <span className="material-symbols-outlined text-[20px]">notifications</span>
       </button>
-      <button aria-label="Yardım" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
+      <button aria-label="Yardım" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center" onClick={() => setHelpOpen(true)}>
       <span className="material-symbols-outlined text-[20px]">help_outline</span>
       </button>
       <button className="ml-sm cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-full transition-all duration-200" onClick={() => setDrawerOpen(true)}>
@@ -201,6 +210,36 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       </div>
       </div>
       </aside>
+      {notifOpen && (
+        <div className="fixed top-14 right-4 w-80 bg-white dark:bg-slate-900 shadow-xl rounded-xl border border-slate-200 dark:border-slate-700 z-[90] max-h-[400px] overflow-y-auto">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <h4 className="font-bold text-slate-900 dark:text-white">Bildirimler</h4>
+            <button className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300" onClick={() => setNotifOpen(false)}>
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          {state.alerts.length === 0 && (
+            <div className="p-4 text-sm text-slate-500">Yeni bildirim yok.</div>
+          )}
+          {state.alerts.map(a => (
+            <div key={a.id} className="p-3 border-b border-slate-100 dark:border-slate-800 text-sm">
+              <p className="font-medium text-slate-900 dark:text-white">{a.title}</p>
+              <p className="text-slate-500 dark:text-slate-400">{a.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {helpOpen && (
+        <div className="fixed inset-0 bg-black/40 z-[100] flex items-center justify-center" onClick={() => setHelpOpen(false)}>
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-xl max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Yardım</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+              Skyline Shift Planner operasyonel vardiya yönetim aracıdır. Sayfalar arasında gezinmek için sol menüyü, yeni lead eklemek için &quot;Hızlı Ekle&quot; butonunu kullanabilirsiniz.
+            </p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" onClick={() => setHelpOpen(false)}>Kapat</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

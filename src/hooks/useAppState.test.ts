@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { useAppState } from '../hooks/useAppState';
 import { loadState, saveState, clearState } from '../utils/storage';
 import type { AppState, Lead } from '../types/domain';
@@ -83,13 +83,15 @@ describe('useAppState hook', () => {
     expect(result.current.state.alerts.find(a => a.id === alertId)).toBeUndefined();
   });
 
-  it('persists state to localStorage', () => {
+  it('persists state to localStorage', async () => {
     const { result } = renderHook(() => useAppState());
     act(() => {
       result.current.navigate('pipeline');
     });
-    const loaded = loadState();
-    expect(loaded).not.toBeNull();
-    expect(loaded!.currentPage).toBe('pipeline');
+    await waitFor(() => {
+      const loaded = loadState();
+      expect(loaded).not.toBeNull();
+      expect(loaded!.currentPage).toBe('pipeline');
+    }, { timeout: 500 });
   });
 });

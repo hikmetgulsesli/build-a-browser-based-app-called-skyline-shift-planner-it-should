@@ -13,11 +13,14 @@ import type { AppState, Page } from "../types/domain";
 interface OperasyonPipelineProps {
   state: AppState;
   navigate: (page: Page) => void;
+  setSearchQuery: (query: string) => void;
 }
 
 export function OperasyonPipeline(props: OperasyonPipelineProps) {
-  const { state, navigate } = props;
+  const { state, navigate, setSearchQuery } = props;
   const [filter, setFilter] = useState<'all' | 'critical'>('all');
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const planned = state.flights.filter(f => f.status === 'planned');
   const assigned = state.flights.filter(f => f.status === 'assigned' || f.status === 'active' || f.status === 'delayed');
@@ -42,7 +45,7 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
         placeholder="Uçuş veya ekip ara..."
         type="text"
         value={state.searchQuery}
-        onChange={() => {}}
+        onChange={(e) => setSearchQuery(e.target.value)}
       />
       </div>
       </div>
@@ -52,10 +55,10 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
                       Hızlı Ekle
                   </button>
       <div className="flex items-center gap-sm">
-      <button aria-label="Bildirimler" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-blue-600 transition-colors">
+      <button aria-label="Bildirimler" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-blue-600 transition-colors" onClick={() => setNotifOpen(prev => !prev)}>
       <span className="material-symbols-outlined text-[20px]">notifications</span>
       </button>
-      <button aria-label="Yardım" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-blue-600 transition-colors">
+      <button aria-label="Yardım" className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-blue-600 transition-colors" onClick={() => setHelpOpen(true)}>
       <span className="material-symbols-outlined text-[20px]">help_outline</span>
       </button>
       </div>
@@ -110,6 +113,12 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
                               Ayarlar
                           </button>
       </li>
+      <li>
+      <button className="flex items-center gap-sm px-md py-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors w-full text-left" onClick={() => navigate('errors')}>
+      <span className="material-symbols-outlined text-[20px]">error_outline</span>
+                              Hatalar ve Boş Durumlar
+                          </button>
+      </li>
       </ul>
       </nav>
       <div className="p-sm mt-auto border-t border-slate-200">
@@ -146,7 +155,7 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
         Sadece Kritik
       </button>
       </div>
-      <button className="h-8 px-sm flex items-center gap-xs border border-outline-variant rounded-DEFAULT bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-low transition-colors font-body-sm text-body-sm">
+      <button className="h-8 px-sm flex items-center gap-xs border border-outline-variant rounded-DEFAULT bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-low transition-colors font-body-sm text-body-sm" onClick={() => setFilter('all')}>
       <span className="material-symbols-outlined text-[16px]">filter_list</span>
                           Filtrele
                       </button>
@@ -180,7 +189,7 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
       <p className="font-body-md text-body-md text-on-surface font-medium">{f.route}</p>
       <p className="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1 mt-xs">
       <span className="material-symbols-outlined text-[14px]">group</span>
-                                      Ekip bekleniyor (0/4)
+                                      {f.warnings && f.warnings.length > 0 ? f.warnings[0] : 'Ekip bekleniyor'}
                                   </p>
       </div>
       </article>
@@ -211,7 +220,7 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
       <span className={`font-code-data text-code-data font-bold ${isDelayed ? 'text-error' : 'text-primary'}`}>{f.flightNumber}</span>
       </div>
       <span className={`font-code-data text-code-data px-1.5 py-0.5 rounded-xl border ${isDelayed ? 'bg-status-delayed-bg text-status-delayed-text border-status-delayed-text/20 flex items-center gap-1' : 'bg-status-ontime-bg text-status-ontime-text border-status-ontime-text/20'}`}>
-        {isDelayed ? (<><span className="material-symbols-outlined text-[12px]">schedule</span>+45dk</>) : 'Zamanında'}
+        {isDelayed ? (<><span className="material-symbols-outlined text-[12px]">schedule</span>{f.warnings && f.warnings.length > 0 ? f.warnings[0] : '+45dk'}</>) : 'Zamanında'}
       </span>
       </div>
       <div>
@@ -283,6 +292,36 @@ export function OperasyonPipeline(props: OperasyonPipelineProps) {
       </section>
       </div>
       </main>
+      {notifOpen && (
+        <div className="fixed top-14 right-4 w-80 bg-white dark:bg-slate-900 shadow-xl rounded-xl border border-slate-200 dark:border-slate-700 z-[90] max-h-[400px] overflow-y-auto">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <h4 className="font-bold text-slate-900 dark:text-white">Bildirimler</h4>
+            <button className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300" onClick={() => setNotifOpen(false)}>
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          {state.alerts.length === 0 && (
+            <div className="p-4 text-sm text-slate-500">Yeni bildirim yok.</div>
+          )}
+          {state.alerts.map(a => (
+            <div key={a.id} className="p-3 border-b border-slate-100 dark:border-slate-800 text-sm">
+              <p className="font-medium text-slate-900 dark:text-white">{a.title}</p>
+              <p className="text-slate-500 dark:text-slate-400">{a.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {helpOpen && (
+        <div className="fixed inset-0 bg-black/40 z-[100] flex items-center justify-center" onClick={() => setHelpOpen(false)}>
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-xl max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Yardım</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+              Skyline Shift Planner operasyonel vardiya yönetim aracıdır. Sayfalar arasında gezinmek için sol menüyü, yeni lead eklemek için &quot;Hızlı Ekle&quot; butonunu kullanabilirsiniz.
+            </p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" onClick={() => setHelpOpen(false)}>Kapat</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
