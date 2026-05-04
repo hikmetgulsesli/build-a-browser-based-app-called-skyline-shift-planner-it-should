@@ -1,6 +1,6 @@
 import type { AppState } from '../types/domain';
 
-const STORAGE_KEY = 'skyline-shift-planner-state';
+export const STORAGE_KEY = 'skyline-shift-planner-state';
 
 export function loadState(): Partial<AppState> | null {
   try {
