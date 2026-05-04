@@ -8,17 +8,20 @@ export function useAppState() {
     const saved = loadState();
     if (saved) {
       const initial = getInitialState();
-      return { ...initial, ...saved, alerts: initial.alerts, crews: initial.crews, flights: initial.flights };
+      return { ...initial, ...saved };
     }
     return getInitialState();
   });
 
   useEffect(() => {
-    saveState(state);
+    const timer = setTimeout(() => {
+      saveState(state);
+    }, 300);
+    return () => clearTimeout(timer);
   }, [state]);
 
   const navigate = useCallback((page: Page) => {
-    setState((prev) => ({ ...prev, currentPage: page }));
+    setState((prev) => ({ ...prev, currentPage: page, editLeadId: page === 'add-lead' ? null : prev.editLeadId }));
   }, []);
 
   const setEditLead = useCallback((id: string | null) => {
@@ -80,6 +83,8 @@ export function useAppState() {
       ...prev,
       leads: [],
       flights: [],
+      alerts: [],
+      searchQuery: '',
     }));
   }, []);
 
