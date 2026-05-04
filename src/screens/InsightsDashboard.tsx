@@ -8,10 +8,22 @@
 // 4. Replace placeholder data with props/state
 
 import { useState } from "react";
+import type { AppState, Page } from "../types/domain";
 
-interface InsightsDashboardProps {}
+interface InsightsDashboardProps {
+  state: AppState;
+  navigate: (page: Page) => void;
+  setSearchQuery: (q: string) => void;
+  dismissAlert: (id: string) => void;
+}
 
 export function InsightsDashboard(props: InsightsDashboardProps) {
+  const { state, navigate, setSearchQuery, dismissAlert } = props;
+  const totalCrew = state.crews.length;
+  const activeShifts = state.flights.filter(f => f.status === 'assigned' || f.status === 'active').length;
+  const criticalAlerts = state.alerts.filter(a => a.type === 'rule_violation').length;
+  const efficiency = 94.8;
+
   return (
     <>
       {/* TopNavBar */}
@@ -19,25 +31,34 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       <div className="flex items-center gap-4">
       <div className="relative">
       <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style={{fontSize: "18px"}}>search</span>
-      <input className="h-9 pl-10 pr-4 rounded bg-surface-container-low border border-outline-variant text-body-sm font-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 placeholder:text-on-surface-variant" placeholder="Arama..." type="text" />
+      <input
+        className="h-9 pl-10 pr-4 rounded bg-surface-container-low border border-outline-variant text-body-sm font-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 placeholder:text-on-surface-variant"
+        placeholder="Arama..."
+        type="text"
+        value={state.searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       </div>
       </div>
       <div className="flex items-center gap-6">
       <div className="flex items-center gap-md">
-      <button className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200">
+      <button aria-label="Bildirimler" className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200">
       <span className="material-symbols-outlined">notifications</span>
       </button>
-      <button className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200">
+      <button aria-label="Yardım" className="text-slate-500 dark:text-slate-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200">
       <span className="material-symbols-outlined">help_outline</span>
       </button>
       </div>
-      <button className="h-9 px-4 bg-[#2563EB] text-on-primary font-body-sm text-body-sm font-medium rounded hover:bg-primary transition-colors flex items-center gap-2">
+      <button
+        className="h-9 px-4 bg-[#2563EB] text-on-primary font-body-sm text-body-sm font-medium rounded hover:bg-primary transition-colors flex items-center gap-2"
+        onClick={() => navigate('add-lead')}
+      >
       <span className="material-symbols-outlined" style={{fontSize: "18px"}}>add</span>
                       Hızlı Ekle
                   </button>
-      <div className="h-8 w-8 rounded-full overflow-hidden border border-outline-variant bg-surface-container">
+      <button className="h-8 w-8 rounded-full overflow-hidden border border-outline-variant bg-surface-container" onClick={() => navigate('profile')}>
       <img alt="Kullanıcı Profili" className="w-full h-full object-cover" data-alt="A professional headshot of an airline operations manager, well-lit with high-key soft lighting typical of a modern corporate ID photo. The background is a stark, clean white to emphasize the subject. The overall mood conveys precision and reliability, fitting perfectly into a minimalist, light-mode corporate dashboard aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5r3brYqb5n_A2Nl-VU6XotzjStRxv2htTjnrjJiUuNJWuRJ-2tJ63IBd7WraTvhnu1nkrIqs4EwhSUwtWCZVwh5WislDkprpdDEavcMv9rfzwLd6u1GbO1EXAcpVA-ifmqWU7WemWV-qnycTDsp4rUR6_oryQngeHjvu2h5oCzI19ggh9Pdr_O5SpcFhY2BikyZTE-i5y3OXIrf5Ch849nJ5fjw0fa2P4ZZBlbboH4iQEZYcuGJaDzscb-DtLPcMS3P9ZztEdKT0" />
-      </div>
+      </button>
       </div>
       </header>
       {/* SideNavBar */}
@@ -52,29 +73,29 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       </div>
       </div>
       <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-2 px-3">
-      <a className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+      <button className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased text-left" onClick={() => navigate('leads')}>
       <span className="material-symbols-outlined">supervisor_account</span>
                       Yöneticiler
-                  </a>
-      <a className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+                  </button>
+      <button className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased text-left" onClick={() => navigate('pipeline')}>
       <span className="material-symbols-outlined">view_kanban</span>
                       Operasyon Akışı
-                  </a>
-      <a className="flex items-center gap-3 px-3 py-2 rounded bg-primary-container/10 text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+                  </button>
+      <button className="flex items-center gap-3 px-3 py-2 rounded bg-primary-container/10 text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased text-left">
       <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>monitoring</span>
                       Analizler
-                  </a>
-      <a className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+                  </button>
+      <button className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased text-left" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined">settings</span>
                       Ayarlar
-                  </a>
-      <a className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+                  </button>
+      <button className="flex items-center gap-3 px-3 py-2 rounded text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased text-left" onClick={() => navigate('profile')}>
       <span className="material-symbols-outlined">person</span>
                       Profil
-                  </a>
+                  </button>
       </div>
       <div className="p-6">
-      <button className="w-full h-10 bg-surface-container-lowest border border-outline-variant text-secondary font-body-sm text-body-sm font-medium rounded hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+      <button className="w-full h-10 bg-surface-container-lowest border border-outline-variant text-secondary font-body-sm text-body-sm font-medium rounded hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2" onClick={() => navigate('add-lead')}>
       <span className="material-symbols-outlined" style={{fontSize: "18px"}}>add_circle</span>
                       Yeni Vardiya Oluştur
                   </button>
@@ -105,7 +126,7 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       </div>
       <div className="z-10">
       <div className="flex items-baseline gap-2">
-      <span className="font-display-lg text-display-lg text-on-surface">342</span>
+      <span className="font-display-lg text-display-lg text-on-surface">{totalCrew}</span>
       <span className="font-code-data text-code-data text-[#16A34A] flex items-center"><span className="material-symbols-outlined text-[14px]">arrow_upward</span>%4.2</span>
       </div>
       </div>
@@ -119,8 +140,8 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       </div>
       <div className="z-10">
       <div className="flex items-baseline gap-2">
-      <span className="font-display-lg text-display-lg text-on-surface">128</span>
-      <span className="font-body-sm text-body-sm text-on-surface-variant">/ 150 planlanan</span>
+      <span className="font-display-lg text-display-lg text-on-surface">{activeShifts}</span>
+      <span className="font-body-sm text-body-sm text-on-surface-variant">/ {state.flights.length} planlanan</span>
       </div>
       </div>
       </div>
@@ -133,7 +154,7 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       </div>
       <div className="z-10">
       <div className="flex items-baseline gap-2">
-      <span className="font-display-lg text-display-lg text-[#991B1B]">7</span>
+      <span className="font-display-lg text-display-lg text-[#991B1B]">{criticalAlerts}</span>
       <span className="font-body-sm text-body-sm text-[#B91C1C]">Kural İhlali</span>
       </div>
       </div>
@@ -146,9 +167,9 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       <span className="material-symbols-outlined text-primary" style={{fontVariationSettings: "'FILL' 1"}}>bolt</span>
       </div>
       <div className="z-10 flex flex-col gap-2">
-      <span className="font-display-lg text-display-lg text-on-surface">%94.8</span>
+      <span className="font-display-lg text-display-lg text-on-surface">%{efficiency}</span>
       <div className="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden">
-      <div className="h-full bg-primary rounded-full w-[94.8%]"></div>
+      <div className="h-full bg-primary rounded-full" style={{width: `${efficiency}%`}}></div>
       </div>
       </div>
       </div>
@@ -159,7 +180,7 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       <div className="lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-lg p-lg">
       <div className="flex justify-between items-center mb-md border-b border-outline-variant pb-sm">
       <h3 className="font-title-sm text-title-sm text-on-surface">Haftalık Görev Tamamlama</h3>
-      <button className="text-primary font-body-sm text-body-sm font-medium hover:underline">Detayları Gör</button>
+      <button className="text-primary font-body-sm text-body-sm font-medium hover:underline" onClick={() => navigate('pipeline')}>Detayları Gör</button>
       </div>
       <div className="flex flex-col gap-md mt-lg">
       {/* Row 1 */}
@@ -232,51 +253,26 @@ export function InsightsDashboard(props: InsightsDashboardProps) {
       <span className="material-symbols-outlined text-secondary" style={{fontSize: "20px"}}>notifications_active</span>
                               Kompakt Uyarı Paneli
                           </h3>
-      <span className="px-2 py-0.5 rounded bg-[#FEE2E2] text-[#DC2626] font-code-data text-code-data font-bold">3 Yeni</span>
+      <span className="px-2 py-0.5 rounded bg-[#FEE2E2] text-[#DC2626] font-code-data text-code-data font-bold">{state.alerts.filter(a => !a.read).length} Yeni</span>
       </div>
       <div className="flex-1 overflow-y-auto">
-      {/* Alert Item 1 */}
-      <div className="p-md border-b border-surface-container hover:bg-surface-container-lowest transition-colors cursor-pointer flex gap-3 items-start">
-      <div className="w-8 h-8 rounded bg-[#FEE2E2] flex items-center justify-center text-[#DC2626] flex-shrink-0 mt-0.5">
-      <span className="material-symbols-outlined" style={{fontSize: "18px"}}>rule</span>
+      {state.alerts.map((alert) => (
+      <div key={alert.id} className="p-md border-b border-surface-container hover:bg-surface-container-lowest transition-colors cursor-pointer flex gap-3 items-start" onClick={() => dismissAlert(alert.id)}>
+      <div className={`w-8 h-8 rounded flex items-center justify-center flex-shrink-0 mt-0.5 ${alert.type === 'rule_violation' ? 'bg-[#FEE2E2] text-[#DC2626]' : alert.type === 'delay' ? 'bg-[#FEF3C7] text-[#D97706]' : 'bg-surface-container-high text-secondary'}`}>
+      <span className="material-symbols-outlined" style={{fontSize: "18px"}}>{alert.type === 'rule_violation' ? 'rule' : alert.type === 'delay' ? 'weather_snowy' : 'info'}</span>
       </div>
       <div className="flex-1">
       <div className="flex justify-between items-baseline mb-1">
-      <h4 className="font-body-sm text-body-sm font-semibold text-on-surface">Kural İhlali: Uçuş Süresi</h4>
-      <span className="font-label-caps text-label-caps text-on-surface-variant">10 dk önce</span>
+      <h4 className="font-body-sm text-body-sm font-semibold text-on-surface">{alert.title}</h4>
+      <span className="font-label-caps text-label-caps text-on-surface-variant">{alert.timeAgo}</span>
       </div>
-      <p className="font-body-sm text-body-sm text-secondary line-clamp-2">Kaptan Yılmaz, K. (TK-1024) yasal maksimum uçuş süresini 15 dakika aşmak üzere. Yedek ekip gerekiyor.</p>
-      </div>
-      </div>
-      {/* Alert Item 2 */}
-      <div className="p-md border-b border-surface-container hover:bg-surface-container-lowest transition-colors cursor-pointer flex gap-3 items-start">
-      <div className="w-8 h-8 rounded bg-[#FEF3C7] flex items-center justify-center text-[#D97706] flex-shrink-0 mt-0.5">
-      <span className="material-symbols-outlined" style={{fontSize: "18px"}}>weather_snowy</span>
-      </div>
-      <div className="flex-1">
-      <div className="flex justify-between items-baseline mb-1">
-      <h4 className="font-body-sm text-body-sm font-semibold text-on-surface">Operasyonel Gecikme</h4>
-      <span className="font-label-caps text-label-caps text-on-surface-variant">45 dk önce</span>
-      </div>
-      <p className="font-body-sm text-body-sm text-secondary line-clamp-2">Münih (MUC) hava sahasındaki ağır kar yağışı nedeniyle rotasyon gecikmeleri bekleniyor.</p>
+      <p className="font-body-sm text-body-sm text-secondary line-clamp-2">{alert.description}</p>
       </div>
       </div>
-      {/* Alert Item 3 */}
-      <div className="p-md hover:bg-surface-container-lowest transition-colors cursor-pointer flex gap-3 items-start opacity-70">
-      <div className="w-8 h-8 rounded bg-surface-container-high flex items-center justify-center text-secondary flex-shrink-0 mt-0.5">
-      <span className="material-symbols-outlined" style={{fontSize: "18px"}}>info</span>
-      </div>
-      <div className="flex-1">
-      <div className="flex justify-between items-baseline mb-1">
-      <h4 className="font-body-sm text-body-sm font-semibold text-on-surface">Sistem Güncellemesi</h4>
-      <span className="font-label-caps text-label-caps text-on-surface-variant">2 saat önce</span>
-      </div>
-      <p className="font-body-sm text-body-sm text-secondary line-clamp-2">Vardiya planlama modülü 02:00 - 04:00 arası bakım nedeniyle çevrimdışı olacaktır.</p>
-      </div>
-      </div>
+      ))}
       </div>
       <div className="p-sm bg-surface border-t border-outline-variant text-center">
-      <button className="font-label-caps text-label-caps text-primary hover:text-on-primary-fixed-variant tracking-wider">TÜMÜNÜ GÖR</button>
+      <button className="font-label-caps text-label-caps text-primary hover:text-on-primary-fixed-variant tracking-wider" onClick={() => navigate('pipeline')}>TÜMÜNÜ GÖR</button>
       </div>
       </div>
       </div>
