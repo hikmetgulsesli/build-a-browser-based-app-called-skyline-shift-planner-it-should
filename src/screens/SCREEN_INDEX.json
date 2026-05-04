@@ -1,0 +1,128 @@
+[
+  {
+    "screenId": "0fc1cb23b6a74e4ebfc1bd1034cd2ad1",
+    "title": "Lead Ekle/Düzenle",
+    "componentName": "LeadEkleduzenle",
+    "file": "src/screens/LeadEkleduzenle.tsx",
+    "buttons": 3,
+    "inputs": 1,
+    "links": 0
+  },
+  {
+    "screenId": "0ea8ac3bd46242b5a457c69fcedef103",
+    "title": "Leads Listesi",
+    "componentName": "LeadsListesi",
+    "file": "src/screens/LeadsListesi.tsx",
+    "buttons": 18,
+    "inputs": 5,
+    "links": 6
+  },
+  {
+    "screenId": "c6d591abbc324c9394e3b5cca39f7a75",
+    "title": "Hata ve Boş Durumlar",
+    "componentName": "HataVeBosDurumlar",
+    "file": "src/screens/HataVeBosDurumlar.tsx",
+    "buttons": 6,
+    "inputs": 0,
+    "links": 6
+  },
+  {
+    "screenId": "afd9cae72dbd4d2689b79eae1e278459",
+    "title": "Ayarlar",
+    "componentName": "Ayarlar",
+    "file": "src/screens/Ayarlar.tsx",
+    "buttons": 4,
+    "inputs": 2,
+    "links": 9
+  },
+  {
+    "screenId": "e622c66788da481690500d7fafce37c5",
+    "title": "Operasyon Pipeline",
+    "componentName": "OperasyonPipeline",
+    "file": "src/screens/OperasyonPipeline.tsx",
+    "buttons": 6,
+    "inputs": 1,
+    "links": 6
+  },
+  {
+    "screenId": "8ee8cd168f224875ade41de37ad0dfec",
+    "title": "Profil Paneli",
+    "componentName": "ProfilPaneli",
+    "file": "src/screens/ProfilPaneli.tsx",
+    "buttons": 7,
+    "inputs": 0,
+    "links": 6
+  },
+  {
+    "screenId": "76e5cb61c9284d8c9c17e7b62c7f20ab",
+    "title": "Insights (Dashboard)",
+    "componentName": "InsightsDashboard",
+    "file": "src/screens/InsightsDashboard.tsx",
+    "buttons": 8,
+    "inputs": 1,
+    "links": 7
+  },
+  {
+    "screenId": "989bfd88a33c4c2d8c4cde03e483dbe1",
+    "title": "Lead Ekle/Düzenle",
+    "componentName": "LeadEkleduzenle",
+    "file": "src/screens/LeadEkleduzenle.tsx",
+    "buttons": 3,
+    "inputs": 1,
+    "links": 0
+  },
+  {
+    "screenId": "f8558d0f2f8c41baab973d376a57945a",
+    "title": "Profil Paneli",
+    "componentName": "ProfilPaneli",
+    "file": "src/screens/ProfilPaneli.tsx",
+    "buttons": 8,
+    "inputs": 1,
+    "links": 6
+  },
+  {
+    "screenId": "3e55036d152d4210bac3ffe862b0d2bb",
+    "title": "Ayarlar",
+    "componentName": "Ayarlar",
+    "file": "src/screens/Ayarlar.tsx",
+    "buttons": 5,
+    "inputs": 6,
+    "links": 5
+  },
+  {
+    "screenId": "736f633608bf433d956f28e484171e1e",
+    "title": "Operasyon Pipeline",
+    "componentName": "OperasyonPipeline",
+    "file": "src/screens/OperasyonPipeline.tsx",
+    "buttons": 8,
+    "inputs": 1,
+    "links": 5
+  },
+  {
+    "screenId": "8c7e437af65d4284a94ecd7bfec623cb",
+    "title": "Leads Listesi",
+    "componentName": "LeadsListesi",
+    "file": "src/screens/LeadsListesi.tsx",
+    "buttons": 11,
+    "inputs": 2,
+    "links": 5
+  },
+  {
+    "screenId": "3f6b558410444a71b297e48bf0dee73d",
+    "title": "Hata ve Boş Durumlar",
+    "componentName": "HataVeBosDurumlar",
+    "file": "src/screens/HataVeBosDurumlar.tsx",
+    "buttons": 7,
+    "inputs": 1,
+    "links": 5
+  },
+  {
+    "screenId": "64ac2168b1ca4d3388c3aff75e5af7f3",
+    "title": "Insights (Dashboard)",
+    "componentName": "InsightsDashboard",
+    "file": "src/screens/InsightsDashboard.tsx",
+    "buttons": 6,
+    "inputs": 1,
+    "links": 5
+  }
+]
