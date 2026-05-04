@@ -8,10 +8,46 @@
 // 4. Replace placeholder data with props/state
 
 import { useState } from "react";
+import type { AppState, Page, Lead, LeadRole, BaseCode } from "../types/domain";
 
-interface LeadsListesiProps {}
+interface LeadsListesiProps {
+  state: AppState;
+  navigate: (page: Page) => void;
+  setEditLead: (id: string | null) => void;
+  setSearchQuery: (q: string) => void;
+  setBaseFilter: (b: string) => void;
+  setRoleFilter: (r: string) => void;
+  deleteLead: (id: string) => void;
+}
+
+const roleLabels: Record<string, string> = {
+  captain: 'Kaptan Pilot',
+  first_officer: 'İkinci Pilot',
+  cabin_chief: 'Kabin Amiri',
+  dispatcher: 'Uçuş Harekat Uzmanı (Dispeçer)',
+  ground_ops: 'Yer İşletme Sorumlusu',
+};
+
+const statusLabels: Record<string, { text: string; className: string; dot: string }> = {
+  pending: { text: 'Değerlendirme Bekliyor', className: 'bg-surface-variant text-on-surface-variant border border-outline-variant', dot: 'bg-outline' },
+  interview: { text: 'Mülakat Aşamasında', className: 'bg-primary-fixed text-on-primary-fixed-variant', dot: 'bg-primary' },
+  simulator: { text: 'Simülatör Testinde', className: 'bg-tertiary-fixed text-on-tertiary-fixed', dot: 'bg-tertiary' },
+  approved: { text: 'Onaylandı', className: 'bg-primary-fixed text-on-primary-fixed-variant', dot: 'bg-primary' },
+  rejected: { text: 'Olumsuz Sonuçlandı', className: 'bg-error-container text-error', dot: 'bg-error' },
+};
 
 export function LeadsListesi(props: LeadsListesiProps) {
+  const { state, navigate, setEditLead, setSearchQuery, setBaseFilter, setRoleFilter, deleteLead } = props;
+
+  const filtered = state.leads.filter((l) => {
+    const matchesSearch =
+      l.fullName.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+      l.id.toLowerCase().includes(state.searchQuery.toLowerCase());
+    const matchesBase = state.baseFilter === 'all' || l.base === state.baseFilter;
+    const matchesRole = state.roleFilter === 'all' || l.role === state.roleFilter;
+    return matchesSearch && matchesBase && matchesRole;
+  });
+
   return (
     <>
       {/* TopNavBar */}
@@ -20,25 +56,31 @@ export function LeadsListesi(props: LeadsListesiProps) {
       <span className="hidden text-lg font-bold text-slate-900 dark:text-white">Skyline Shift Planner</span>
       <div className="relative flex items-center">
       <span className="material-symbols-outlined absolute left-sm text-secondary text-body-md">search</span>
-      <input className="h-9 pl-xl pr-sm bg-surface-container-low border-outline-variant rounded text-body-sm font-body-sm w-64 focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Arama..." type="text" />
+      <input
+        className="h-9 pl-xl pr-sm bg-surface-container-low border-outline-variant rounded text-body-sm font-body-sm w-64 focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all"
+        placeholder="Arama..."
+        type="text"
+        value={state.searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       </div>
       </div>
       <div className="flex items-center gap-md">
-      <button className="bg-primary-container text-on-primary font-body-sm text-body-sm h-9 px-md rounded flex items-center gap-xs hover:bg-primary transition-colors">
+      <button className="bg-primary-container text-on-primary font-body-sm text-body-sm h-9 px-md rounded flex items-center gap-xs hover:bg-primary transition-colors" onClick={() => navigate('add-lead')}>
       <span className="material-symbols-outlined text-[18px]">add</span>
                       Hızlı Ekle
                   </button>
       <div className="flex items-center gap-sm">
-      <button className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+      <button aria-label="Bildirimler" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
       <span className="material-symbols-outlined">notifications</span>
       </button>
-      <button className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+      <button aria-label="Yardım" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
       <span className="material-symbols-outlined">help_outline</span>
       </button>
       </div>
-      <div className="h-8 w-8 rounded-full overflow-hidden ml-sm border border-outline-variant">
+      <button className="h-8 w-8 rounded-full overflow-hidden ml-sm border border-outline-variant" onClick={() => navigate('profile')}>
       <img alt="Kullanıcı Profili" className="w-full h-full object-cover" data-alt="A professional headshot of an airline operations manager, clear bright lighting, neutral corporate background. The aesthetic is clean, modern, and trustworthy, aligning with a high-stakes operational environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxuwZolDwemZHxw6P59FoI9bUmUrgOZkXWQca0_3fIF9II2p-bozhg9ibJv4beSdod5irVXvdcxRj_sgqlW1BmVQuS9_ZEiRbZBhh1mfKdGgf38tEcaDwBvAjn7HT4aGm3U7PBoiwJJBxuRK4E76S72fc4-PRY1-gJhSeFzbUC3Z-i-MZ3WQWG_W6PXKLGAtaqJg_CCRe7k3u4xAtcgb2doURs2kb0_LlBSqQaBI8Bt-S8ac4Q41FaXlEkiXLW_IaK4hpkisF0TzY" />
-      </div>
+      </button>
       </div>
       </header>
       {/* SideNavBar */}
@@ -53,41 +95,41 @@ export function LeadsListesi(props: LeadsListesiProps) {
       </div>
       </div>
       <div className="p-md">
-      <button className="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm h-10 rounded shadow-sm flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors duration-150 ease-in-out">
+      <button className="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm h-10 rounded shadow-sm flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors duration-150 ease-in-out" onClick={() => navigate('add-lead')}>
       <span className="material-symbols-outlined text-[18px]">add_circle</span>
                       Yeni Vardiya Oluştur
                   </button>
       </div>
       <ul className="flex flex-col flex-1 py-sm font-inter text-sm antialiased mt-sm">
       <li>
-      <a className="flex items-center gap-md px-lg py-sm text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-md px-lg py-sm text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left">
       <span className="material-symbols-outlined">supervisor_account</span>
       <span className="font-body-md text-body-md">Yöneticiler</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('pipeline')}>
       <span className="material-symbols-outlined">view_kanban</span>
       <span className="font-body-md text-body-md">Operasyon Akışı</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('dashboard')}>
       <span className="material-symbols-outlined">monitoring</span>
       <span className="font-body-md text-body-md">Analizler</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined">settings</span>
       <span className="font-body-md text-body-md">Ayarlar</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('profile')}>
       <span className="material-symbols-outlined">person</span>
       <span className="font-body-md text-body-md">Profil</span>
-      </a>
+      </button>
       </li>
       </ul>
       </nav>
@@ -100,7 +142,7 @@ export function LeadsListesi(props: LeadsListesiProps) {
       <h2 className="font-headline-md text-headline-md text-on-surface">Ekip Liderleri</h2>
       <p className="font-body-sm text-body-sm text-secondary mt-xs">Güncel operasyonel lider kadrosu ve durum izleme paneli.</p>
       </div>
-      <button className="bg-primary-container text-on-primary font-body-sm text-body-sm h-10 px-md rounded flex items-center gap-sm shadow-sm hover:opacity-90 transition-opacity">
+      <button className="bg-primary-container text-on-primary font-body-sm text-body-sm h-10 px-md rounded flex items-center gap-sm shadow-sm hover:opacity-90 transition-opacity" onClick={() => navigate('add-lead')}>
       <span className="material-symbols-outlined text-[18px]">person_add</span>
                           Yeni Lead Ekle
                       </button>
@@ -111,25 +153,41 @@ export function LeadsListesi(props: LeadsListesiProps) {
       <div className="p-md border-b border-outline-variant bg-surface-bright flex flex-wrap gap-md items-center">
       <div className="relative w-64">
       <span className="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
-      <input className="w-full h-9 pl-xl pr-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none" placeholder="İsim veya Sicil No ile ara..." type="text" />
+      <input
+        className="w-full h-9 pl-xl pr-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none"
+        placeholder="İsim veya Sicil No ile ara..."
+        type="text"
+        value={state.searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
       </div>
       <div className="flex items-center gap-sm">
       <label className="font-label-caps text-label-caps text-secondary">ÜS:</label>
-      <select className="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none">
-      <option>Tümü</option>
-      <option>IST (İstanbul Havalimanı)</option>
-      <option>SAW (Sabiha Gökçen)</option>
-      <option>ESB (Esenboğa)</option>
-      <option>AYT (Antalya)</option>
+      <select
+        className="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none"
+        value={state.baseFilter}
+        onChange={(e) => setBaseFilter(e.target.value)}
+      >
+      <option value="all">Tümü</option>
+      <option value="IST">IST (İstanbul Havalimanı)</option>
+      <option value="SAW">SAW (Sabiha Gökçen)</option>
+      <option value="ESB">ESB (Esenboğa)</option>
+      <option value="AYT">AYT (Antalya)</option>
       </select>
       </div>
       <div className="flex items-center gap-sm">
       <label className="font-label-caps text-label-caps text-secondary">ROL:</label>
-      <select className="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none">
-      <option>Tümü</option>
-      <option>Hat Bakım Şefi</option>
-      <option>Harekat Koordinatörü</option>
-      <option>Kabin Ekip Amiri</option>
+      <select
+        className="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none"
+        value={state.roleFilter}
+        onChange={(e) => setRoleFilter(e.target.value)}
+      >
+      <option value="all">Tümü</option>
+      <option value="captain">Kaptan Pilot</option>
+      <option value="first_officer">İkinci Pilot</option>
+      <option value="cabin_chief">Kabin Amiri</option>
+      <option value="dispatcher">Uçuş Harekat Uzmanı</option>
+      <option value="ground_ops">Yer İşletme Sorumlusu</option>
       </select>
       </div>
       </div>
@@ -148,112 +206,61 @@ export function LeadsListesi(props: LeadsListesiProps) {
       </tr>
       </thead>
       <tbody className="font-body-md text-body-md text-on-surface">
-      {/* Row 1 */}
-      <tr className="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
-      <td className="px-md font-code-data text-code-data text-secondary">LD-402</td>
+      {filtered.map((lead) => {
+        const st = statusLabels[lead.status] || statusLabels.pending;
+        const initials = lead.fullName.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
+        return (
+      <tr key={lead.id} className="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+      <td className="px-md font-code-data text-code-data text-secondary">{lead.id}</td>
       <td className="px-md">
       <div className="flex items-center gap-sm py-xs">
       <div className="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-title-sm text-title-sm shrink-0">
-                                                  MK
+                                                  {initials}
                                               </div>
-      <span className="font-medium">Murat Keskin</span>
+      <span className="font-medium">{lead.fullName}</span>
       </div>
       </td>
-      <td className="px-md text-secondary">Hat Bakım Şefi</td>
-      <td className="px-md"><span className="font-code-data text-code-data">IST</span></td>
-      <td className="px-md text-secondary">m.keskin@skyline.com</td>
+      <td className="px-md text-secondary">{roleLabels[lead.role] || lead.role}</td>
+      <td className="px-md"><span className="font-code-data text-code-data">{lead.base}</span></td>
+      <td className="px-md text-secondary">{lead.email || lead.phone || '-'}</td>
       <td className="px-md">
-      <span className="inline-flex items-center px-2 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps gap-xs">
-      <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                                              Nöbette
+      <span className={`inline-flex items-center px-2 py-1 rounded-full font-label-caps text-label-caps gap-xs ${st.className}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`}></span>
+                                              {st.text}
                                           </span>
       </td>
       <td className="px-md text-right">
-      <button className="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+      <button
+        aria-label="Düzenle"
+        className="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+        onClick={() => setEditLead(lead.id)}
+      >
       <span className="material-symbols-outlined text-[20px]">edit_document</span>
+      </button>
+      <button
+        aria-label="Sil"
+        className="text-secondary hover:text-error p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+        onClick={() => deleteLead(lead.id)}
+      >
+      <span className="material-symbols-outlined text-[20px]">delete</span>
       </button>
       </td>
       </tr>
-      {/* Row 2 */}
-      <tr className="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
-      <td className="px-md font-code-data text-code-data text-secondary">LD-189</td>
-      <td className="px-md">
-      <div className="flex items-center gap-sm py-xs">
-      <img alt="Ayşe Yılmaz" className="w-8 h-8 rounded-full object-cover shrink-0" data-alt="A small circular avatar portrait of a female airline professional in a uniform. Bright neutral lighting, clean white background, high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxaKwjkFtdmZuWu1gj4pDH_L2lKMSH2jPQqauLs_gUDDuwKQC5eo9Mj4vvD59XWQnCt83C2rQpVDqf9X_URYIha1CpgNmf0Kjob8AZ7-rlgR6LTiPASgbbPxKu_c7ZzNp8PEmKkQ48kd_Cpe9eyJiYoIWlvGwespF9l2ESy3SiHR-MJBtoDKllm6_bk-Y5ZPnutGg5cztN-0bNk0ghp61X7v2t6Y8p1XfNZUw3LOOQab53ZiQpe3Aks9Q9XbwRtlUSQ6Q52O2soow" />
-      <span className="font-medium">Ayşe Yılmaz</span>
-      </div>
-      </td>
-      <td className="px-md text-secondary">Harekat Koordinatörü</td>
-      <td className="px-md"><span className="font-code-data text-code-data">SAW</span></td>
-      <td className="px-md text-secondary">+90 532 123 4567</td>
-      <td className="px-md">
-      <span className="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps gap-xs border border-outline-variant">
-      <span className="w-1.5 h-1.5 rounded-full bg-outline"></span>
-                                              İstirahat
-                                          </span>
-      </td>
-      <td className="px-md text-right">
-      <button className="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-      <span className="material-symbols-outlined text-[20px]">edit_document</span>
-      </button>
+        );
+      })}
+      {filtered.length === 0 && (
+      <tr>
+      <td colSpan={7} className="px-md py-lg text-center text-secondary font-body-md">
+        Sonuç bulunamadı.
       </td>
       </tr>
-      {/* Row 3 */}
-      <tr className="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
-      <td className="px-md font-code-data text-code-data text-secondary">LD-552</td>
-      <td className="px-md">
-      <div className="flex items-center gap-sm py-xs">
-      <div className="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-title-sm text-title-sm shrink-0">
-                                                  CD
-                                              </div>
-      <span className="font-medium">Caner Demir</span>
-      </div>
-      </td>
-      <td className="px-md text-secondary">Kabin Ekip Amiri</td>
-      <td className="px-md"><span className="font-code-data text-code-data">IST</span></td>
-      <td className="px-md text-secondary">c.demir@skyline.com</td>
-      <td className="px-md">
-      <span className="inline-flex items-center px-2 py-1 rounded-full bg-error-container text-error font-label-caps text-label-caps gap-xs">
-      <span className="w-1.5 h-1.5 rounded-full bg-error"></span>
-                                              Raporlu
-                                          </span>
-      </td>
-      <td className="px-md text-right">
-      <button className="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-      <span className="material-symbols-outlined text-[20px]">edit_document</span>
-      </button>
-      </td>
-      </tr>
-      {/* Row 4 */}
-      <tr className="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
-      <td className="px-md font-code-data text-code-data text-secondary">LD-210</td>
-      <td className="px-md">
-      <div className="flex items-center gap-sm py-xs">
-      <img alt="Burak Tekin" className="w-8 h-8 rounded-full object-cover shrink-0" data-alt="A small circular avatar portrait of a male airline professional. Serious expression, neutral background, sharp corporate lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl-B2COxXFT4FjH1fnqvZTRlqkKY16LSH0LS11Xl7YQWG3IJfim3q4BG2DO_6U8mOs5xKk4how8nWLOu_yT5nI1Q0aUm6Y-Wu76tXMRGi29CXxL-URLPLfdEZDlGVrZrELkwz3cowuWfhSwlP-8G7W4oESuCpQnIp7vm_V5TA31jHMTyXz8UoOUbIkVPhfWSi4h0tETVevBavXGMtHWplkC2-Y9jISsQpRc5JRtptu0XJfwVLBt8qbobfIKoNhx9Od3mBfFkmvR6E" />
-      <span className="font-medium">Burak Tekin</span>
-      </div>
-      </td>
-      <td className="px-md text-secondary">Hat Bakım Şefi</td>
-      <td className="px-md"><span className="font-code-data text-code-data">ESB</span></td>
-      <td className="px-md text-secondary">b.tekin@skyline.com</td>
-      <td className="px-md">
-      <span className="inline-flex items-center px-2 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps gap-xs">
-      <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                                              Nöbette
-                                          </span>
-      </td>
-      <td className="px-md text-right">
-      <button className="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
-      <span className="material-symbols-outlined text-[20px]">edit_document</span>
-      </button>
-      </td>
-      </tr>
+      )}
       </tbody>
       </table>
       </div>
       {/* Pagination Footer */}
       <div className="p-sm px-md bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
-      <span className="font-body-sm text-body-sm text-secondary">Toplam 48 kayıt, 1-4 gösteriliyor</span>
+      <span className="font-body-sm text-body-sm text-secondary">Toplam {filtered.length} kayıt gösteriliyor</span>
       <div className="flex items-center gap-xs">
       <button className="w-8 h-8 rounded flex items-center justify-center text-secondary border border-outline-variant bg-surface-container-lowest hover:bg-surface-variant transition-colors disabled:opacity-50" disabled={true}>
       <span className="material-symbols-outlined text-[18px]">chevron_left</span>
