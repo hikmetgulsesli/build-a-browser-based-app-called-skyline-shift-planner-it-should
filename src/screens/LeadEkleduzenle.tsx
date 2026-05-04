@@ -35,12 +35,14 @@ export function LeadEkleduzenle(props: LeadEkleduzenleProps) {
       return;
     }
     const lead: Lead = {
-      id: existing?.id || `LD-${Math.floor(100 + Math.random() * 900)}`,
+      id: existing?.id || `LD-${crypto.randomUUID().slice(0, 3).toUpperCase()}`,
       fullName: fullName.trim(),
       base: (base as any) || 'IST',
       role: (role as any) || 'captain',
       status: (status as any) || 'pending',
       notes: notes.trim(),
+      email: existing?.email,
+      phone: existing?.phone,
     };
     if (existing) {
       updateLead(lead);
@@ -71,7 +73,7 @@ export function LeadEkleduzenle(props: LeadEkleduzenleProps) {
       </div>
       </header>
       {/* Form Content */}
-      <form className="p-md sm:p-margin flex flex-col gap-margin bg-surface-container-lowest" onSubmit={handleSave}>
+      <form id="lead-form" className="p-md sm:p-margin flex flex-col gap-margin bg-surface-container-lowest" onSubmit={handleSave}>
       {/* Ad Soyad Field (Validation Error State) */}
       <div className="flex flex-col gap-xs">
       <label className={`font-label-caps text-label-caps ${error ? 'text-error' : 'text-on-surface-variant'}`} htmlFor="fullName">Ad Soyad</label>
@@ -181,7 +183,7 @@ export function LeadEkleduzenle(props: LeadEkleduzenleProps) {
       <button className="h-[40px] px-lg rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-body-sm text-body-sm font-medium hover:bg-surface-variant hover:text-on-surface transition-colors w-full sm:w-auto" type="button" onClick={() => navigate('leads')}>
                           İptal
                       </button>
-      <button className="h-[40px] px-lg rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-medium hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-xs w-full sm:w-auto shadow-sm" type="submit" onClick={handleSave}>
+      <button className="h-[40px] px-lg rounded-lg bg-primary text-on-primary font-body-sm text-body-sm font-medium hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-xs w-full sm:w-auto shadow-sm" type="submit" form="lead-form">
       <span className="material-symbols-outlined text-[18px]">save</span>
                           Kaydet
                       </button>

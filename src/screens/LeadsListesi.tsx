@@ -38,6 +38,8 @@ const statusLabels: Record<string, { text: string; className: string; dot: strin
 
 export function LeadsListesi(props: LeadsListesiProps) {
   const { state, navigate, setEditLead, setSearchQuery, setBaseFilter, setRoleFilter, deleteLead } = props;
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const filtered = state.leads.filter((l) => {
     const matchesSearch =
@@ -71,10 +73,10 @@ export function LeadsListesi(props: LeadsListesiProps) {
                       Hızlı Ekle
                   </button>
       <div className="flex items-center gap-sm">
-      <button aria-label="Bildirimler" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+      <button aria-label="Bildirimler" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors" onClick={() => setNotifOpen(prev => !prev)}>
       <span className="material-symbols-outlined">notifications</span>
       </button>
-      <button aria-label="Yardım" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+      <button aria-label="Yardım" className="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors" onClick={() => setHelpOpen(true)}>
       <span className="material-symbols-outlined">help_outline</span>
       </button>
       </div>
@@ -123,6 +125,12 @@ export function LeadsListesi(props: LeadsListesiProps) {
       <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined">settings</span>
       <span className="font-body-md text-body-md">Ayarlar</span>
+      </button>
+      </li>
+      <li>
+      <button className="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('errors')}>
+      <span className="material-symbols-outlined">error_outline</span>
+      <span className="font-body-md text-body-md">Hatalar ve Boş Durumlar</span>
       </button>
       </li>
       <li>
@@ -273,6 +281,36 @@ export function LeadsListesi(props: LeadsListesiProps) {
       </div>
       </div>
       </main>
+      {notifOpen && (
+        <div className="fixed top-14 right-4 w-80 bg-white dark:bg-slate-900 shadow-xl rounded-xl border border-slate-200 dark:border-slate-700 z-[90] max-h-[400px] overflow-y-auto">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <h4 className="font-bold text-slate-900 dark:text-white">Bildirimler</h4>
+            <button className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300" onClick={() => setNotifOpen(false)}>
+              <span className="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+          {state.alerts.length === 0 && (
+            <div className="p-4 text-sm text-slate-500">Yeni bildirim yok.</div>
+          )}
+          {state.alerts.map(a => (
+            <div key={a.id} className="p-3 border-b border-slate-100 dark:border-slate-800 text-sm">
+              <p className="font-medium text-slate-900 dark:text-white">{a.title}</p>
+              <p className="text-slate-500 dark:text-slate-400">{a.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+      {helpOpen && (
+        <div className="fixed inset-0 bg-black/40 z-[100] flex items-center justify-center" onClick={() => setHelpOpen(false)}>
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-xl max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Yardım</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+              Skyline Shift Planner operasyonel vardiya yönetim aracıdır. Sayfalar arasında gezinmek için sol menüyü, yeni lead eklemek için &quot;Hızlı Ekle&quot; butonunu kullanabilirsiniz.
+            </p>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" onClick={() => setHelpOpen(false)}>Kapat</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
