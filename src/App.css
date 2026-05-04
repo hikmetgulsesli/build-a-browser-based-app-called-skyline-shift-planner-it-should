@@ -1,0 +1,4 @@
+/* App shell styles */
+[data-setfarm-root="app"] {
+  min-height: 100vh;
+}
