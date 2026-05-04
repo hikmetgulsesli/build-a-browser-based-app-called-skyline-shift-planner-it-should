@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skyline Ops - Ekip Liderleri</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f0f0fb",
+                        "on-surface-variant": "#434655",
+                        "secondary": "#515f74",
+                        "surface-bright": "#faf8ff",
+                        "primary-container": "#2563eb",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-surface": "#191b23",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "surface-container-low": "#f3f3fe",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-variant": "#e1e2ed",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-background": "#191b23",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#d5e3fc",
+                        "primary": "#004ac6",
+                        "tertiary-container": "#bc4800",
+                        "surface-container": "#ededf9",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-primary-fixed": "#00174b",
+                        "secondary-fixed": "#d5e3fc",
+                        "background": "#faf8ff",
+                        "surface-container-highest": "#e1e2ed",
+                        "tertiary": "#943700",
+                        "inverse-surface": "#2e3039",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface": "#faf8ff",
+                        "surface-container-high": "#e7e7f3",
+                        "inverse-primary": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#737686",
+                        "surface-dim": "#d9d9e5",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-tint": "#0053db",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-secondary-container": "#57657a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin": "24px",
+                        "lg": "24px",
+                        "gutter": "16px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "title-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "code-data": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "title-sm": ["18px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-caps": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "code-data": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #faf8ff; } /* bg-background */
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen antialiased">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-950 flex justify-between items-center h-14 pl-64 pr-6 w-full fixed top-0 z-40 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none transition-all duration-200">
+<div class="flex items-center gap-md">
+<span class="hidden text-lg font-bold text-slate-900 dark:text-white">Skyline Shift Planner</span>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-sm text-secondary text-body-md">search</span>
+<input class="h-9 pl-xl pr-sm bg-surface-container-low border-outline-variant rounded text-body-sm font-body-sm w-64 focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all" placeholder="Arama..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary font-body-sm text-body-sm h-9 px-md rounded flex items-center gap-xs hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Hızlı Ekle
+            </button>
+<div class="flex items-center gap-sm">
+<button class="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="h-9 w-9 flex items-center justify-center rounded-full hover:bg-surface-variant text-secondary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-sm border border-outline-variant">
+<img alt="Kullanıcı Profili" class="w-full h-full object-cover" data-alt="A professional headshot of an airline operations manager, clear bright lighting, neutral corporate background. The aesthetic is clean, modern, and trustworthy, aligning with a high-stakes operational environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxuwZolDwemZHxw6P59FoI9bUmUrgOZkXWQca0_3fIF9II2p-bozhg9ibJv4beSdod5irVXvdcxRj_sgqlW1BmVQuS9_ZEiRbZBhh1mfKdGgf38tEcaDwBvAjn7HT4aGm3U7PBoiwJJBxuRK4E76S72fc4-PRY1-gJhSeFzbUC3Z-i-MZ3WQWG_W6PXKLGAtaqJg_CCRe7k3u4xAtcgb2doURs2kb0_LlBSqQaBI8Bt-S8ac4Q41FaXlEkiXLW_IaK4hpkisF0TzY"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="bg-slate-50 dark:bg-slate-900 flex flex-col h-full fixed left-0 top-0 h-screen w-64 border-r border-r border-slate-200 dark:border-slate-800 flat no shadows z-50">
+<div class="p-lg flex items-center gap-md border-b border-slate-200 dark:border-slate-800">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<div>
+<h1 class="text-lg font-bold text-slate-900 dark:text-white font-title-sm text-title-sm">Skyline Ops</h1>
+<p class="text-slate-500 dark:text-slate-400 font-label-caps text-label-caps mt-xs">Vardiya Planlayıcı</p>
+</div>
+</div>
+<div class="p-md">
+<button class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-body-sm text-body-sm h-10 rounded shadow-sm flex items-center justify-center gap-sm hover:bg-surface-container-low transition-colors duration-150 ease-in-out">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+                Yeni Vardiya Oluştur
+            </button>
+</div>
+<ul class="flex flex-col flex-1 py-sm font-inter text-sm antialiased mt-sm">
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">supervisor_account</span>
+<span class="font-body-md text-body-md">Yöneticiler</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">view_kanban</span>
+<span class="font-body-md text-body-md">Operasyon Akışı</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-body-md text-body-md">Analizler</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Ayarlar</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-lg py-sm text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-body-md text-body-md">Profil</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-14 pl-64 min-h-screen">
+<div class="p-margin max-w-[1400px] mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Ekip Liderleri</h2>
+<p class="font-body-sm text-body-sm text-secondary mt-xs">Güncel operasyonel lider kadrosu ve durum izleme paneli.</p>
+</div>
+<button class="bg-primary-container text-on-primary font-body-sm text-body-sm h-10 px-md rounded flex items-center gap-sm shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                    Yeni Lead Ekle
+                </button>
+</div>
+<!-- Data Table Container (Surface) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-sm overflow-hidden flex flex-col">
+<!-- Filter Bar -->
+<div class="p-md border-b border-outline-variant bg-surface-bright flex flex-wrap gap-md items-center">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="w-full h-9 pl-xl pr-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none" placeholder="İsim veya Sicil No ile ara..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<label class="font-label-caps text-label-caps text-secondary">ÜS:</label>
+<select class="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none">
+<option>Tümü</option>
+<option>IST (İstanbul Havalimanı)</option>
+<option>SAW (Sabiha Gökçen)</option>
+<option>ESB (Esenboğa)</option>
+<option>AYT (Antalya)</option>
+</select>
+</div>
+<div class="flex items-center gap-sm">
+<label class="font-label-caps text-label-caps text-secondary">ROL:</label>
+<select class="h-9 px-sm bg-surface-container-lowest border border-outline-variant rounded font-body-sm text-body-sm text-on-surface focus:border-primary-container focus:outline-none">
+<option>Tümü</option>
+<option>Hat Bakım Şefi</option>
+<option>Harekat Koordinatörü</option>
+<option>Kabin Ekip Amiri</option>
+</select>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant h-10">
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold w-12">#</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold">PERSONEL</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold">ROL</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold">ÜS</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold">İLETİŞİM</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold">DURUM</th>
+<th class="px-md font-label-caps text-label-caps text-secondary font-semibold text-right">İŞLEMLER</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md font-code-data text-code-data text-secondary">LD-402</td>
+<td class="px-md">
+<div class="flex items-center gap-sm py-xs">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-title-sm text-title-sm shrink-0">
+                                            MK
+                                        </div>
+<span class="font-medium">Murat Keskin</span>
+</div>
+</td>
+<td class="px-md text-secondary">Hat Bakım Şefi</td>
+<td class="px-md"><span class="font-code-data text-code-data">IST</span></td>
+<td class="px-md text-secondary">m.keskin@skyline.com</td>
+<td class="px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        Nöbette
+                                    </span>
+</td>
+<td class="px-md text-right">
+<button class="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md font-code-data text-code-data text-secondary">LD-189</td>
+<td class="px-md">
+<div class="flex items-center gap-sm py-xs">
+<img alt="Ayşe Yılmaz" class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="A small circular avatar portrait of a female airline professional in a uniform. Bright neutral lighting, clean white background, high resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxaKwjkFtdmZuWu1gj4pDH_L2lKMSH2jPQqauLs_gUDDuwKQC5eo9Mj4vvD59XWQnCt83C2rQpVDqf9X_URYIha1CpgNmf0Kjob8AZ7-rlgR6LTiPASgbbPxKu_c7ZzNp8PEmKkQ48kd_Cpe9eyJiYoIWlvGwespF9l2ESy3SiHR-MJBtoDKllm6_bk-Y5ZPnutGg5cztN-0bNk0ghp61X7v2t6Y8p1XfNZUw3LOOQab53ZiQpe3Aks9Q9XbwRtlUSQ6Q52O2soow"/>
+<span class="font-medium">Ayşe Yılmaz</span>
+</div>
+</td>
+<td class="px-md text-secondary">Harekat Koordinatörü</td>
+<td class="px-md"><span class="font-code-data text-code-data">SAW</span></td>
+<td class="px-md text-secondary">+90 532 123 4567</td>
+<td class="px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps gap-xs border border-outline-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                        İstirahat
+                                    </span>
+</td>
+<td class="px-md text-right">
+<button class="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md font-code-data text-code-data text-secondary">LD-552</td>
+<td class="px-md">
+<div class="flex items-center gap-sm py-xs">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed font-title-sm text-title-sm shrink-0">
+                                            CD
+                                        </div>
+<span class="font-medium">Caner Demir</span>
+</div>
+</td>
+<td class="px-md text-secondary">Kabin Ekip Amiri</td>
+<td class="px-md"><span class="font-code-data text-code-data">IST</span></td>
+<td class="px-md text-secondary">c.demir@skyline.com</td>
+<td class="px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-error-container text-error font-label-caps text-label-caps gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Raporlu
+                                    </span>
+</td>
+<td class="px-md text-right">
+<button class="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="h-10 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<td class="px-md font-code-data text-code-data text-secondary">LD-210</td>
+<td class="px-md">
+<div class="flex items-center gap-sm py-xs">
+<img alt="Burak Tekin" class="w-8 h-8 rounded-full object-cover shrink-0" data-alt="A small circular avatar portrait of a male airline professional. Serious expression, neutral background, sharp corporate lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl-B2COxXFT4FjH1fnqvZTRlqkKY16LSH0LS11Xl7YQWG3IJfim3q4BG2DO_6U8mOs5xKk4how8nWLOu_yT5nI1Q0aUm6Y-Wu76tXMRGi29CXxL-URLPLfdEZDlGVrZrELkwz3cowuWfhSwlP-8G7W4oESuCpQnIp7vm_V5TA31jHMTyXz8UoOUbIkVPhfWSi4h0tETVevBavXGMtHWplkC2-Y9jISsQpRc5JRtptu0XJfwVLBt8qbobfIKoNhx9Od3mBfFkmvR6E"/>
+<span class="font-medium">Burak Tekin</span>
+</div>
+</td>
+<td class="px-md text-secondary">Hat Bakım Şefi</td>
+<td class="px-md"><span class="font-code-data text-code-data">ESB</span></td>
+<td class="px-md text-secondary">b.tekin@skyline.com</td>
+<td class="px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-caps text-label-caps gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                        Nöbette
+                                    </span>
+</td>
+<td class="px-md text-right">
+<button class="text-secondary hover:text-primary-container p-xs rounded transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100">
+<span class="material-symbols-outlined text-[20px]">edit_document</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-sm px-md bg-surface-container-low border-t border-outline-variant flex justify-between items-center">
+<span class="font-body-sm text-body-sm text-secondary">Toplam 48 kayıt, 1-4 gösteriliyor</span>
+<div class="flex items-center gap-xs">
+<button class="w-8 h-8 rounded flex items-center justify-center text-secondary border border-outline-variant bg-surface-container-lowest hover:bg-surface-variant transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-secondary border border-outline-variant bg-surface-container-lowest hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

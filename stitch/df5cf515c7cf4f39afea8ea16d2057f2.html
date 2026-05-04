@@ -1,0 +1,45 @@
+# Skyline Shift Planner - PRD
+
+## Genel Bakış
+Skyline Shift Planner, havayolu operasyon liderlerinin günlük ekip vardiya blokları oluşturmasına, ekipleri uçuşlara atamasına, fazla mesai/dinlenme kuralı çakışmalarını işaretlemesine, üs ve role göre filtreleme yapmasına ve uyarıları içeren kompakt bir pano görüntülemesine yardımcı olan tarayıcı tabanlı bir uygulamadır.
+
+## Hedefler
+- Kullanıcıya ilk yüklemede çalışan ve boş/dolu/hata durumları olan bir deneyim sunmak.
+- Tüm görünen buton ve icon buttonların gerçek state, route, panel veya form davranışı üretmesini sağlamak.
+- Mobil ve desktop görünümlerde metin taşması, üst üste binme ve oluşmayan aksiyon bırakmamak.
+- localStorage ile veri kalıcılığını net hata/geri alma davranışlarıyla kurmak.
+
+## Teknik Kararlar
+- **Framework:** React 18 + Vite + TypeScript.
+- **Styling:** Tailwind CSS (Corporate/Minimal).
+- **Icons:** Lucide React.
+- **Storage:** localStorage.
+
+## Fonksiyonel Gereksinimler (R1)
+- Günlük ekip vardiya blokları oluşturma.
+- Ekipleri uçuşlara atama.
+- Fazla mesai ve dinlenme kuralı ihlallerini işaretleme.
+- Üs (base) ve role göre filtreleme.
+- Uyarıları gösteren kompakt dashboard.
+- Düzenlenebilir formlar ve gerçekçi örnek veriler.
+
+## UI/UX Gereksinimleri
+- **Aesthetic:** Corporate/Minimal, SaaS.
+- **Palette:** 
+  - Primary: #2563EB
+  - Background: #F8FAFC
+  - Text: #0F172A
+  - Success: #16A34A
+  - Error: #DC2626
+- **Typography:** Inter / Sistem Sans (Kompakt ve okunur).
+- **Dil:** Türkçe.
+
+## Ekran Listesi
+1. **Leads (Ana Ekran):** Liste, arama, filtreleme.
+2. **Lead Ekle/Düzenle:** Form ekranı.
+3. **Pipeline:** Kan-ban board görünümü.
+4. **Insights:** Dashboard ve metrikler.
+5. **Settings:** Ayarlar.
+6. **Profil Paneli:** Kullanıcı tercihleri.
+7. **Storage Hata Durumu:** Hata bannerı ve aksiyonlar.
+8. **Boş Durum:** İlk kullanım ekranı.

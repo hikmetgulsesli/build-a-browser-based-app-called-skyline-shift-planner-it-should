@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skyline Shift Planner - Leads</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e2ed",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#ededf9",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-high": "#e7e7f3",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-container-highest": "#e1e2ed",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "secondary": "#515f74",
+                        "secondary-container": "#d5e3fc",
+                        "surface-tint": "#0053db",
+                        "on-secondary-container": "#57657a",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-surface": "#191b23",
+                        "primary": "#004ac6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "tertiary-container": "#bc4800",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-surface-variant": "#434655",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "outline": "#737686",
+                        "inverse-surface": "#2e3039",
+                        "surface": "#faf8ff",
+                        "surface-container-low": "#f3f3fe",
+                        "on-background": "#191b23",
+                        "inverse-on-surface": "#f0f0fb",
+                        "surface-dim": "#d9d9e5",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "sm": "8px",
+                        "base-unit": "4px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "h2-header": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "body-base": ["Inter"],
+                        "h3-subhead": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-large": ["Inter"],
+                        "h1-display": ["Inter"],
+                        "body-small": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h2-header": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "h3-subhead": ["18px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-large": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "h1-display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-small": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-base text-body-base overflow-hidden flex">
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-slate-50 border-r border-slate-200 flex flex-col py-6 z-50">
+<!-- Header -->
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" style="font-variation-settings: 'FILL' 1;">flight_takeoff</span>
+</div>
+<div>
+<h1 class="text-lg font-black text-blue-600 tracking-tight">Skyline Ops</h1>
+<p class="font-body-small text-body-small text-slate-500">Vardiya Planlama</p>
+</div>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 hover:translate-x-1 transition-transform duration-200 rounded" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm antialiased">Gösterge Paneli</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-600 bg-blue-50/50 border-r-4 border-blue-600 font-semibold scale-95 transition-all rounded-l" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-sans text-sm antialiased">Yönetim</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 hover:translate-x-1 transition-transform duration-200 rounded" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-sans text-sm antialiased">Operasyon Akışı</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 hover:translate-x-1 transition-transform duration-200 rounded" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-sans text-sm antialiased">Ayarlar</span>
+</a>
+</div>
+<!-- Footer Navigation -->
+<div class="px-2 mt-auto space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 hover:translate-x-1 transition-transform duration-200 rounded" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-sans text-sm antialiased">Destek</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-slate-100 hover:translate-x-1 transition-transform duration-200 rounded" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm antialiased">Çıkış Yap</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<div class="flex-1 ml-64 flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-white border-b border-slate-200 h-16 flex justify-between items-center px-6 shrink-0 z-40">
+<!-- Search Bar on Left -->
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-slate-50 border-none rounded-DEFAULT focus:ring-2 focus:ring-primary focus:bg-white transition-colors font-body-base text-body-base text-slate-900 placeholder:text-slate-500" placeholder="Personel veya üs ara..." type="text"/>
+</div>
+</div>
+<!-- Brand / Product Name (Centered conceptually, but layout dictates right side items) -->
+<div class="hidden md:flex flex-1 justify-center">
+<span class="font-sans text-sm font-medium tracking-tight text-blue-600">Skyline Shift Planner</span>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4 flex-1 justify-end">
+<button class="text-slate-500 hover:bg-slate-50 transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 hover:bg-slate-50 transition-colors p-2 rounded-full flex items-center justify-center opacity-80 duration-150">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-6 w-px bg-slate-200 mx-2"></div>
+<button class="flex items-center gap-2 text-slate-900 hover:bg-slate-50 transition-colors p-1 pr-3 rounded-full opacity-80 duration-150">
+<img alt="Kullanıcı Avatarı" class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot portrait of a mature male aviation crew manager with short hair, wearing a dark navy corporate polo shirt. The lighting is bright, soft, and corporate, emphasizing a trustworthy and experienced demeanor. The background is a slightly blurred, high-tech control room environment in a light-mode aesthetic, matching the clean blue and white UI styling." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0Sf17mg1zsnMGWgVxsl4vcakKCRS7_KlmrZNp43YULwHHEhFiW47nymvRURwtV7Tf3eJNz7r7kSWjlWtz-S0DvlHtm7yKJIrWuNcb4afblWZC_8DSayWccgiOQaXYPB2GNYzjFlpvak1NMABRc9Q8V4Ba_9_4P42GZJkdveDoHibyMUQlvcxmNnwr3nFB_yVEHbrkwiy3fDA8YGpJXYFS5_8d0VAX0BQ_CL8qp6ykXwvcKeg9uUmP5JkPxbUMCRKiItwpbbhjmFA"/>
+<span class="font-body-small text-body-small font-medium text-slate-700">Profil Ayarları</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 overflow-y-auto p-container-margin">
+<!-- Page Header & Primary Action -->
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-h2-header text-h2-header text-on-surface mb-xs">Ekip Liderleri (Leads)</h2>
+<p class="font-body-base text-body-base text-on-surface-variant">Tüm aktif üslerdeki operasyon liderlerinin yönetimi ve görev durumları.</p>
+</div>
+<button class="bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-bold text-label-bold px-4 py-2.5 rounded-DEFAULT shadow-[0_2px_4px_rgba(15,23,42,0.08)] flex items-center gap-2 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Yeni Lead Ekle
+                </button>
+</div>
+<!-- Filters & Controls Bar -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-lg p-md mb-md flex items-center gap-md">
+<div class="flex flex-col gap-base-unit">
+<label class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider text-[10px]">Üs (Base)</label>
+<select class="bg-surface-container-low border-none text-on-surface font-body-small text-body-small rounded py-1.5 pl-3 pr-8 focus:ring-2 focus:ring-primary w-40">
+<option>Tüm Üsler</option>
+<option>IST - İstanbul</option>
+<option>SAW - Sabiha Gökçen</option>
+<option>ESB - Esenboğa</option>
+</select>
+</div>
+<div class="flex flex-col gap-base-unit">
+<label class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider text-[10px]">Rol</label>
+<select class="bg-surface-container-low border-none text-on-surface font-body-small text-body-small rounded py-1.5 pl-3 pr-8 focus:ring-2 focus:ring-primary w-40">
+<option>Tüm Roller</option>
+<option>Senior Lead</option>
+<option>Ops Lead</option>
+<option>Ramp Lead</option>
+</select>
+</div>
+<div class="h-8 w-px bg-surface-variant mx-2 mt-4"></div>
+<div class="mt-4 flex gap-2">
+<button class="flex items-center gap-1.5 text-on-surface-variant bg-surface-container-low hover:bg-surface-container py-1.5 px-3 rounded font-label-bold text-label-bold transition-colors">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+                        Detaylı Filtre
+                    </button>
+<button class="flex items-center gap-1.5 text-on-surface-variant bg-surface-container-low hover:bg-surface-container py-1.5 px-3 rounded font-label-bold text-label-bold transition-colors">
+<span class="material-symbols-outlined text-[16px]">download</span>
+                        Dışa Aktar
+                    </button>
+</div>
+<div class="ml-auto mt-4 font-data-tabular text-data-tabular text-on-surface-variant">
+                    Toplam: <strong class="text-on-surface">142</strong> Kayıt
+                </div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-container-lowest border border-surface-variant rounded-lg overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-surface-variant">
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px] w-12 text-center">
+<input class="rounded-sm border-outline text-primary focus:ring-primary" type="checkbox"/>
+</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px]">İsim</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px]">Üs (Base)</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px]">Rol</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px]">Durum</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px]">Son Aksiyon</th>
+<th class="font-label-bold text-label-bold text-on-surface-variant py-3 px-4 font-semibold uppercase tracking-wider text-[11px] text-right w-24">İşlemler</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-3 px-4 text-center">
+<input class="rounded-sm border-outline text-primary focus:ring-primary opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-h3-subhead text-h3-subhead text-[14px]">
+                                            AH
+                                        </div>
+<div>
+<div class="font-data-tabular text-data-tabular text-on-surface">Ahmet Yılmaz</div>
+<div class="font-body-small text-body-small text-on-surface-variant">ID: #LD-8492</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">IST - İstanbul</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">Senior Lead</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-bold text-label-bold text-[10px]">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Nöbette
+                                    </span>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface-variant">Bugün, 08:30</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-on-error-container rounded hover:bg-error-container/50 transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-3 px-4 text-center">
+<input class="rounded-sm border-outline text-primary focus:ring-primary opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center font-h3-subhead text-h3-subhead text-[14px]">
+                                            EC
+                                        </div>
+<div>
+<div class="font-data-tabular text-data-tabular text-on-surface">Elif Can</div>
+<div class="font-body-small text-body-small text-on-surface-variant">ID: #LD-7102</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">SAW - Sabiha Gökçen</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">Ops Lead</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-bold text-label-bold text-[10px]">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        İstirahat
+                                    </span>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface-variant">Dün, 18:00</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-on-error-container rounded hover:bg-error-container/50 transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest/50 transition-colors group">
+<td class="py-3 px-4 text-center">
+<input class="rounded-sm border-outline text-primary focus:ring-primary opacity-0 group-hover:opacity-100 transition-opacity" type="checkbox"/>
+</td>
+<td class="py-3 px-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-error-container text-on-error-container flex items-center justify-center font-h3-subhead text-h3-subhead text-[14px]">
+                                            MK
+                                        </div>
+<div>
+<div class="font-data-tabular text-data-tabular text-on-surface">Mustafa Kaya</div>
+<div class="font-body-small text-body-small text-on-surface-variant">ID: #LD-9921</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">ESB - Esenboğa</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface">Ramp Lead</td>
+<td class="py-3 px-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-bold text-label-bold text-[10px]">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                        Raporlu
+                                    </span>
+</td>
+<td class="py-3 px-4 font-data-tabular text-data-tabular text-on-surface-variant">2 Gün Önce</td>
+<td class="py-3 px-4 text-right">
+<div class="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-on-surface-variant hover:text-primary rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-1 text-on-surface-variant hover:text-on-error-container rounded hover:bg-error-container/50 transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-surface-container-low border-t border-surface-variant px-4 py-3 flex items-center justify-between">
+<div class="font-body-small text-body-small text-on-surface-variant">
+                        Gösterilen: <span class="font-medium text-on-surface">1 - 3</span> / <span class="font-medium text-on-surface">142</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded bg-primary text-on-primary font-label-bold text-label-bold flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container font-label-bold text-label-bold flex items-center justify-center">2</button>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container font-label-bold text-label-bold flex items-center justify-center">3</button>
+<span class="text-on-surface-variant px-1">...</span>
+<button class="w-8 h-8 rounded text-on-surface-variant hover:bg-surface-container font-label-bold text-label-bold flex items-center justify-center">15</button>
+<button class="p-1 rounded text-on-surface-variant hover:bg-surface-container">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skyline Shift Planner - Profil Paneli</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf8ff",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e2ed",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#ededf9",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#00174b",
+                        "surface-container-high": "#e7e7f3",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary-container": "#eeefff",
+                        "inverse-primary": "#b4c5ff",
+                        "on-tertiary-container": "#ffede6",
+                        "surface-container-highest": "#e1e2ed",
+                        "background": "#faf8ff",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "secondary": "#515f74",
+                        "secondary-container": "#d5e3fc",
+                        "surface-tint": "#0053db",
+                        "on-secondary-container": "#57657a",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-surface": "#191b23",
+                        "primary": "#004ac6",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "tertiary-container": "#bc4800",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-surface-variant": "#434655",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "outline": "#737686",
+                        "inverse-surface": "#2e3039",
+                        "surface": "#faf8ff",
+                        "surface-container-low": "#f3f3fe",
+                        "on-background": "#191b23",
+                        "inverse-on-surface": "#f0f0fb",
+                        "surface-dim": "#d9d9e5",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "outline-variant": "#c3c6d7",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "container-margin": "24px",
+                        "sm": "8px",
+                        "base-unit": "4px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "h2-header": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "body-base": ["Inter"],
+                        "h3-subhead": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "body-large": ["Inter"],
+                        "h1-display": ["Inter"],
+                        "body-small": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h2-header": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "h3-subhead": ["18px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "body-large": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "h1-display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-small": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-base overflow-hidden">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full py-6 z-40">
+<div class="px-6 mb-8 flex items-center gap-3">
+<img alt="Skyline Logo" class="w-8 h-8 rounded-full" data-alt="A sleek, modern corporate logo icon featuring abstract geometric wing shapes in deep blue and silver tones, set against a pristine white background. The lighting is crisp and studio-quality, emphasizing the metallic finish and professional aviation aesthetic. The mood is trustworthy and technologically advanced." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA0pqi8b2GatJugPQJP6skIzUoh0oSeFByAkWVWTURiuf91w9074JkdyFkj3pEgZSrfcLr23gRK-rrNAtejVGEPgl6LI2zG1rrxUD5ziMbkfvGDzGSX-JBnnZQ00c5lzGLi9iIRyOqPkzgcmHZiXD9OScQ7jNwKosi4rjRRBl0d7Rp6tamBuVS6AZhGYvjWgH-Bfg6cVGY8KlDKM65m56FzPpYV3eiu2Y5I5wtzv0hkmPs-j2SR038r25xY1K04PqT_Pu6UU6DPXA"/>
+<div>
+<h1 class="text-lg font-black text-blue-600 dark:text-blue-400 leading-tight">Skyline Ops</h1>
+<p class="font-sans text-sm antialiased text-slate-500">Vardiya Planlama</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm antialiased">Gösterge Paneli</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-sans text-sm antialiased">Yönetim</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-sans text-sm antialiased">Operasyon Akışı</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20 border-r-4 border-blue-600 font-semibold scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-sans text-sm antialiased">Ayarlar</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-2 pt-6 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-sans text-sm antialiased">Destek</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm antialiased">Çıkış Yap</span>
+</a>
+</div>
+</nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-64 flex justify-between items-center px-6 h-16 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 z-30">
+<div class="text-xl font-bold text-slate-900 dark:text-white tracking-tighter">
+            Skyline Shift Planner
+        </div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors p-2 rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="flex items-center gap-3 ml-4 pl-4 border-l border-slate-200 dark:border-slate-700 cursor-pointer text-blue-600 dark:text-blue-400 font-bold opacity-80 duration-150">
+<span class="font-sans text-sm font-medium tracking-tight">Profil Ayarları</span>
+<img alt="Kullanıcı Avatarı" class="w-8 h-8 rounded-full border border-slate-200" data-alt="A professional headshot of a confident male airline operations manager in his 40s. He is wearing a crisp white shirt and a subtle dark tie, standing in a brightly lit, modern operations center with large data screens softly blurred in the background. The lighting is natural and flattering, creating a high-trust, corporate aesthetic suitable for an enterprise profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKv15qUESvqOT_OcESMP2_ubaUMhFJtRc8rWjOOeY5iKFD15_IHTdanBRTVghsVOwYXP7C2ZJ6NTQTCSyrMvocQud-trhB9s6LoNvd3z6dV7XQfbPpnl_5AADRR-0c_tze-bAk1vL1sA-2J5G-RrF8Z3ymkAUuZrbFs5bc4TNt7NtHa6aEgWLTMzzNX5h-hXtu6Ven8e3DAZyr1YmQ_gcy57e2xlh0n_j6EoPVRrNYeWoPe-tiiW0dzib2-pDkKiBHocx_hmEaeXc"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas (Blurred/Dimmed for Overlay effect) -->
+<main class="ml-64 mt-16 p-container-margin h-[calc(100vh-4rem)] bg-surface-container-lowest">
+<!-- Background decorative elements to imply content underneath -->
+<div class="max-w-5xl mx-auto opacity-30 pointer-events-none">
+<div class="h-8 w-48 bg-surface-variant rounded mb-lg"></div>
+<div class="grid grid-cols-3 gap-md mb-lg">
+<div class="h-32 bg-surface-container rounded-lg border border-outline-variant"></div>
+<div class="h-32 bg-surface-container rounded-lg border border-outline-variant"></div>
+<div class="h-32 bg-surface-container rounded-lg border border-outline-variant"></div>
+</div>
+<div class="h-64 bg-surface-container rounded-lg border border-outline-variant"></div>
+</div>
+</main>
+<!-- Overlay Backdrop -->
+<div class="fixed inset-0 bg-on-surface/20 backdrop-blur-sm z-40 transition-opacity"></div>
+<!-- Profile Drawer Panel -->
+<aside class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-surface z-50 flex flex-col shadow-[-8px_0_24px_rgba(15,23,42,0.08)]">
+<!-- Drawer Header -->
+<div class="flex items-center justify-between px-container-margin py-md border-b border-surface-variant bg-surface-bright">
+<h2 class="font-h3-subhead text-h3-subhead text-on-surface">Profil Özeti</h2>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto">
+<!-- Identity Section -->
+<div class="px-container-margin py-xl flex flex-col items-center text-center border-b border-surface-variant bg-surface-bright">
+<div class="relative mb-lg">
+<img alt="Profil Fotoğrafı" class="w-24 h-24 rounded-full border-4 border-surface shadow-sm" data-alt="A close-up, high-quality portrait of a male aviation professional with a reassuring smile. He is dressed in business attire appropriate for a high-stakes operational role. The background is completely plain, light-mode white to keep the focus entirely on the user's face, projecting an aura of operational trust and cognitive clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD2Q0akLexGZ_3PKHhXpnb6nHR1vXlmcYjn88UByih9iukp2GWmMvOl_go7EwMN9W7V2Trd5RkPriyrDwIw934wnSdYHyxWzRSvIC__sILbofhO6H3YpSk277HYwBewVUmwjX5a3H2lb2tBAxSLtoMlzncjG5WZi4LFlz4iovgqVYeXTM12wiMMBxFPZmyVJqJjitadcSi-lrsaiTcW0fEu-sZj4hRnx7I1tqVAOhyskdmbt-iNY3ygk0Z6qt8zzoNpmtK3tflEZM"/>
+<button class="absolute bottom-0 right-0 w-8 h-8 bg-surface-container-high rounded-full border-2 border-surface flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+</button>
+</div>
+<h3 class="font-h2-header text-h2-header text-on-surface mb-xs">Kaan Yılmaz</h3>
+<p class="font-body-large text-body-large text-secondary">Baş Operasyon Yöneticisi</p>
+<div class="mt-md px-3 py-1 bg-primary-container text-primary-fixed-dim rounded-full font-label-bold text-label-bold inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px; font-variation-settings: 'FILL' 1;">verified</span>
+                    Sistem Yöneticisi
+                </div>
+</div>
+<!-- Quick Settings -->
+<div class="px-container-margin py-lg border-b border-surface-variant">
+<h4 class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider mb-md">Hızlı İşlemler</h4>
+<div class="flex flex-col gap-sm">
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-primary text-on-primary rounded font-label-bold text-label-bold hover:bg-on-primary-fixed-variant transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">key</span>
+                        Şifre Değiştir
+                    </button>
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 bg-surface text-error border border-outline-variant rounded font-label-bold text-label-bold hover:bg-error-container hover:border-error-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">logout</span>
+                        Oturumu Kapat
+                    </button>
+</div>
+</div>
+<!-- Activity Log Summary -->
+<div class="px-container-margin py-lg">
+<h4 class="font-label-bold text-label-bold text-on-surface-variant uppercase tracking-wider mb-md">Son Aktiviteler</h4>
+<div class="relative pl-6 border-l-2 border-surface-variant space-y-6">
+<!-- Activity Item 1 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-3 h-3 bg-primary rounded-full border-2 border-surface"></div>
+<p class="font-body-base text-body-base text-on-surface font-medium">Vardiya Onayı: Ekip Alpha</p>
+<p class="font-body-small text-body-small text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                            Bugün, 09:42
+                        </p>
+</div>
+<!-- Activity Item 2 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-3 h-3 bg-surface-variant rounded-full border-2 border-surface"></div>
+<p class="font-body-base text-body-base text-on-surface font-medium">Sistem Girişi Başarılı</p>
+<p class="font-body-small text-body-small text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                            Bugün, 08:15
+                        </p>
+</div>
+<!-- Activity Item 3 -->
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-3 h-3 bg-surface-variant rounded-full border-2 border-surface"></div>
+<p class="font-body-base text-body-base text-on-surface font-medium">Yeni Personel Kaydı Oluşturuldu</p>
+<p class="font-body-small text-body-small text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                            Dün, 16:30
+                        </p>
+</div>
+</div>
+<button class="w-full mt-lg text-primary font-label-bold text-label-bold text-center hover:underline py-2">
+                    Tüm Aktiviteleri Gör
+                </button>
+</div>
+</div>
+</aside>
+</body></html>
