@@ -8,10 +8,18 @@
 // 4. Replace placeholder data with props/state
 
 import { useState } from "react";
+import type { AppState, Page, AppSettings } from "../types/domain";
 
-interface AyarlarProps {}
+interface AyarlarProps {
+  state: AppState;
+  navigate: (page: Page) => void;
+  updateSettings: (settings: Partial<AppSettings>) => void;
+}
 
 export function Ayarlar(props: AyarlarProps) {
+  const { state, navigate, updateSettings } = props;
+  const { settings } = state;
+
   return (
     <>
       {/* Shared Component: SideNavBar */}
@@ -29,40 +37,40 @@ export function Ayarlar(props: AyarlarProps) {
       {/* Navigation Links */}
       <ul className="flex flex-col flex-grow px-sm py-sm gap-xs">
       <li>
-      <a className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+      <button className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased w-full text-left" onClick={() => navigate('leads')}>
       <span className="material-symbols-outlined">supervisor_account</span>
       <span>Yöneticiler</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+      <button className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased w-full text-left" onClick={() => navigate('pipeline')}>
       <span className="material-symbols-outlined">view_kanban</span>
       <span>Operasyon Akışı</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+      <button className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased w-full text-left" onClick={() => navigate('dashboard')}>
       <span className="material-symbols-outlined">monitoring</span>
       <span>Analizler</span>
-      </a>
+      </button>
       </li>
       <li>
       {/* Active Tab: Ayarlar */}
-      <a className="flex items-center gap-sm px-md py-sm rounded-lg text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150 ease-in-out font-inter text-sm antialiased bg-blue-50/50" href="#">
+      <button className="flex items-center gap-sm px-md py-sm rounded-lg text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-150 ease-in-out font-inter text-sm antialiased bg-blue-50/50 w-full text-left">
       <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}}>settings</span>
       <span>Ayarlar</span>
-      </a>
+      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased" href="#">
+      <button className="flex items-center gap-sm px-md py-sm rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out font-inter text-sm antialiased w-full text-left" onClick={() => navigate('profile')}>
       <span className="material-symbols-outlined">person</span>
       <span>Profil</span>
-      </a>
+      </button>
       </li>
       </ul>
       {/* CTA */}
       <div className="p-lg">
-      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-inter text-sm antialiased py-sm rounded-lg font-medium transition-colors shadow-sm">
+      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-inter text-sm antialiased py-sm rounded-lg font-medium transition-colors shadow-sm" onClick={() => navigate('add-lead')}>
                       Yeni Vardiya Oluştur
                   </button>
       </div>
@@ -78,19 +86,19 @@ export function Ayarlar(props: AyarlarProps) {
       </div>
       {/* Right Actions */}
       <div className="flex items-center gap-sm">
-      <button className="text-blue-600 dark:text-blue-400 font-inter text-sm font-medium hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 px-sm py-xs">
+      <button className="text-blue-600 dark:text-blue-400 font-inter text-sm font-medium hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 px-sm py-xs" onClick={() => navigate('add-lead')}>
                       Hızlı Ekle
                   </button>
       <div className="w-px h-6 bg-slate-200 mx-xs"></div>
-      <button className="text-slate-500 hover:text-blue-500 transition-colors p-xs flex items-center justify-center rounded-full hover:bg-slate-50">
+      <button aria-label="Bildirimler" className="text-slate-500 hover:text-blue-500 transition-colors p-xs flex items-center justify-center rounded-full hover:bg-slate-50">
       <span className="material-symbols-outlined text-[20px]">notifications</span>
       </button>
-      <button className="text-slate-500 hover:text-blue-500 transition-colors p-xs flex items-center justify-center rounded-full hover:bg-slate-50">
+      <button aria-label="Yardım" className="text-slate-500 hover:text-blue-500 transition-colors p-xs flex items-center justify-center rounded-full hover:bg-slate-50">
       <span className="material-symbols-outlined text-[20px]">help_outline</span>
       </button>
-      <div className="ml-sm w-8 h-8 rounded-full bg-slate-200 border border-slate-300 overflow-hidden cursor-pointer">
+      <button className="ml-sm w-8 h-8 rounded-full bg-slate-200 border border-slate-300 overflow-hidden cursor-pointer" onClick={() => navigate('profile')}>
       <img alt="Kullanıcı Profili" className="w-full h-full object-cover" data-alt="A realistic close-up portrait of a professional aviation manager in a bright, modern corporate environment. Clean lighting, minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAElw1f-yZRZkRDNB-F9k72wX4j7Wz0CE4pn9WfS8v23lLxT1u2Ck893GcJReixI5Bu7E1_7M3o_4v9fdJODOuXxT7zLaeDIXao2pzy6BpxU6kTf01WOXbvviblEbl20GILvwuHNS8IW7KzXeTK2aQrd12GuilR-5Li1spNvXNS3jlK2mVq6Tmxv_MXpMJ5PIk5LiAZFNrYziKXbYCohYpz8y63vUMtZlYFB2cFKODq4R_X2TiyjuixOaD4Lksh8yON3EF_8f_hW3s" />
-      </div>
+      </button>
       </div>
       </header>
       {/* Main Content Canvas */}
@@ -115,8 +123,13 @@ export function Ayarlar(props: AyarlarProps) {
       <div className="flex flex-col gap-xs">
       <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="language">DİL (LANGUAGE)</label>
       <div className="relative">
-      <select className="w-full h-[40px] appearance-none bg-surface-lowest border border-outline-variant rounded px-sm py-xs font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors pr-[32px]" id="language">
-      <option selected={true} value="tr">Türkçe</option>
+      <select
+        className="w-full h-[40px] appearance-none bg-surface-lowest border border-outline-variant rounded px-sm py-xs font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors pr-[32px]"
+        id="language"
+        value={settings.language}
+        onChange={(e) => updateSettings({ language: e.target.value as any })}
+      >
+      <option value="tr">Türkçe</option>
       <option value="en">English (US)</option>
       </select>
       <span className="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
@@ -126,8 +139,13 @@ export function Ayarlar(props: AyarlarProps) {
       <div className="flex flex-col gap-xs">
       <label className="font-label-caps text-label-caps text-on-surface-variant" htmlFor="timezone">SAAT DİLİMİ</label>
       <div className="relative">
-      <select className="w-full h-[40px] appearance-none bg-surface-lowest border border-outline-variant rounded px-sm py-xs font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors pr-[32px]" id="timezone">
-      <option selected={true} value="Europe/Istanbul">(GMT+03:00) Europe/Istanbul</option>
+      <select
+        className="w-full h-[40px] appearance-none bg-surface-lowest border border-outline-variant rounded px-sm py-xs font-body-sm text-body-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors pr-[32px]"
+        id="timezone"
+        value={settings.timezone}
+        onChange={(e) => updateSettings({ timezone: e.target.value as any })}
+      >
+      <option value="Europe/Istanbul">(GMT+03:00) Europe/Istanbul</option>
       <option value="UTC">(GMT+00:00) UTC</option>
       </select>
       <span className="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]">expand_more</span>
@@ -151,7 +169,7 @@ export function Ayarlar(props: AyarlarProps) {
       <span className="font-body-sm text-body-sm text-on-surface-variant">Vardiya değişiklikleri ve önemli sistem uyarıları için.</span>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
-      <input checked={true} className="sr-only peer" type="checkbox" value="" />
+      <input checked={settings.emailNotifications} className="sr-only peer" type="checkbox" onChange={(e) => updateSettings({ emailNotifications: e.target.checked })} />
       <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
       </label>
       </div>
@@ -162,7 +180,7 @@ export function Ayarlar(props: AyarlarProps) {
       <span className="font-body-sm text-body-sm text-on-surface-variant">Tarayıcı üzerinden acil operasyonel uyarılar.</span>
       </div>
       <label className="relative inline-flex items-center cursor-pointer">
-      <input className="sr-only peer" type="checkbox" value="" />
+      <input checked={settings.pushNotifications} className="sr-only peer" type="checkbox" onChange={(e) => updateSettings({ pushNotifications: e.target.checked })} />
       <div className="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
       </label>
       </div>
@@ -179,7 +197,7 @@ export function Ayarlar(props: AyarlarProps) {
       <div className="grid grid-cols-3 gap-md pt-sm">
       {/* Light */}
       <label className="relative cursor-pointer">
-      <input checked={true} className="peer sr-only" name="theme" type="radio" value="light" />
+      <input checked={settings.theme === 'light'} className="peer sr-only" name="theme" type="radio" value="light" onChange={() => updateSettings({ theme: 'light' })} />
       <div className="border-2 border-outline-variant rounded-lg p-sm text-center peer-checked:border-primary peer-checked:bg-primary-fixed/20 transition-all flex flex-col items-center gap-sm">
       <div className="w-full h-20 bg-surface-bright rounded border border-surface-variant flex items-center justify-center">
       <span className="material-symbols-outlined text-on-surface text-[32px]">light_mode</span>
@@ -189,7 +207,7 @@ export function Ayarlar(props: AyarlarProps) {
       </label>
       {/* Dark */}
       <label className="relative cursor-pointer">
-      <input className="peer sr-only" name="theme" type="radio" value="dark" />
+      <input checked={settings.theme === 'dark'} className="peer sr-only" name="theme" type="radio" value="dark" onChange={() => updateSettings({ theme: 'dark' })} />
       <div className="border-2 border-outline-variant rounded-lg p-sm text-center peer-checked:border-primary peer-checked:bg-primary-fixed/20 transition-all flex flex-col items-center gap-sm">
       <div className="w-full h-20 bg-inverse-surface rounded border border-surface-variant flex items-center justify-center">
       <span className="material-symbols-outlined text-on-primary text-[32px]">dark_mode</span>
@@ -199,7 +217,7 @@ export function Ayarlar(props: AyarlarProps) {
       </label>
       {/* System */}
       <label className="relative cursor-pointer">
-      <input className="peer sr-only" name="theme" type="radio" value="system" />
+      <input checked={settings.theme === 'system'} className="peer sr-only" name="theme" type="radio" value="system" onChange={() => updateSettings({ theme: 'system' })} />
       <div className="border-2 border-outline-variant rounded-lg p-sm text-center peer-checked:border-primary peer-checked:bg-primary-fixed/20 transition-all flex flex-col items-center gap-sm">
       <div className="w-full h-20 bg-gradient-to-r from-surface-bright to-inverse-surface rounded border border-surface-variant flex items-center justify-center">
       <span className="material-symbols-outlined text-outline text-[32px]">settings_suggest</span>
@@ -211,7 +229,7 @@ export function Ayarlar(props: AyarlarProps) {
       </section>
       {/* Actions */}
       <div className="flex justify-end pt-sm border-t border-outline-variant mt-sm">
-      <button className="bg-primary text-on-primary hover:bg-on-primary-fixed-variant transition-colors rounded px-lg py-[10px] font-title-sm text-body-md shadow-sm">
+      <button className="bg-primary text-on-primary hover:bg-on-primary-fixed-variant transition-colors rounded px-lg py-[10px] font-title-sm text-body-md shadow-sm" onClick={() => navigate('dashboard')}>
                               Değişiklikleri Kaydet
                           </button>
       </div>

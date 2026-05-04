@@ -8,10 +8,17 @@
 // 4. Replace placeholder data with props/state
 
 import { useState } from "react";
+import type { AppState, Page } from "../types/domain";
 
-interface ProfilPaneliProps {}
+interface ProfilPaneliProps {
+  state: AppState;
+  navigate: (page: Page) => void;
+}
 
 export function ProfilPaneli(props: ProfilPaneliProps) {
+  const { state, navigate } = props;
+  const [drawerOpen, setDrawerOpen] = useState(true);
+
   return (
     <>
       {/* JSON Component: SideNavBar */}
@@ -26,41 +33,41 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <p className="text-xs text-slate-500 dark:text-slate-400">Vardiya Planlayıcı</p>
       </div>
       </div>
-      <button className="w-full bg-primary-container hover:bg-primary text-on-primary py-2 rounded transition-colors duration-150 ease-in-out font-medium flex items-center justify-center gap-2">
+      <button className="w-full bg-primary-container hover:bg-primary text-on-primary py-2 rounded transition-colors duration-150 ease-in-out font-medium flex items-center justify-center gap-2" onClick={() => navigate('add-lead')}>
       <span className="material-symbols-outlined text-[18px]">add</span>
                       Yeni Vardiya Oluştur
                   </button>
       </div>
       <ul className="flex flex-col py-md flex-grow">
       <li>
-      <a className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('leads')}>
       <span className="material-symbols-outlined">supervisor_account</span>
                           Yöneticiler
-                      </a>
+                      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('pipeline')}>
       <span className="material-symbols-outlined">view_kanban</span>
                           Operasyon Akışı
-                      </a>
+                      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('dashboard')}>
       <span className="material-symbols-outlined">monitoring</span>
                           Analizler
-                      </a>
+                      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-sm px-6 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 transition-colors duration-150 ease-in-out w-full text-left" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined">settings</span>
                           Ayarlar
-                      </a>
+                      </button>
       </li>
       <li>
-      <a className="flex items-center gap-sm px-6 py-3 text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 bg-slate-100 dark:bg-slate-800 transition-colors duration-150 ease-in-out" href="#">
+      <button className="flex items-center gap-sm px-6 py-3 text-blue-600 dark:text-blue-400 font-semibold border-r-4 border-blue-600 bg-slate-100 dark:bg-slate-800 transition-colors duration-150 ease-in-out w-full text-left">
       <span className="material-symbols-outlined">person</span>
                           Profil
-                      </a>
+                      </button>
       </li>
       </ul>
       </nav>
@@ -73,17 +80,17 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       </div>
       </div>
       <div className="flex items-center gap-md">
-      <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-700 transition-colors duration-200">Hızlı Ekle</button>
+      <button className="bg-blue-600 text-white px-3 py-1.5 rounded text-xs font-semibold hover:bg-blue-700 transition-colors duration-200" onClick={() => navigate('add-lead')}>Hızlı Ekle</button>
       <div className="flex items-center gap-sm text-slate-500 dark:text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-md">
-      <button className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
+      <button aria-label="Bildirimler" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
       <span className="material-symbols-outlined text-[20px]">notifications</span>
       </button>
-      <button className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
+      <button aria-label="Yardım" className="hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-200 flex items-center">
       <span className="material-symbols-outlined text-[20px]">help_outline</span>
       </button>
-      <div className="ml-sm cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-full transition-all duration-200">
+      <button className="ml-sm cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-full transition-all duration-200" onClick={() => setDrawerOpen(true)}>
       <img alt="Kullanıcı Profili" className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700" data-alt="A professional headshot of an authoritative male operations manager in a well-lit, modern corporate setting. He is wearing a crisp white shirt and a subtle dark tie. The lighting is high-key and bright, reflecting a clean, corporate light-mode aesthetic. The background is softly blurred to keep the focus sharp on his confident, composed expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsClCF_c4SAXVHhn_lDg-yBt2LLrhtm2MzCF7DGJtXG_YgCe_8dXnrmePfFYxhuFf8wQJAY2j5yIfrfejzlGeddipI9Hw3lI3hRZ0o7dP9oc2PHMq_BbQpDXD8RRvNEl2Gl3gIgYZujcEIDHcWHkETPelqy9WMUKpwWnRNO_yr5ybM_KDBny9-HNYYLf-RJZ281ERrH1i8YnHdWFnqaGQ8c9kzml5qHNLiRIlxnhz7swXK8KAH3c8tLJO4e3-4WDVx4pcELJJ95NM" />
-      </div>
+      </button>
       </div>
       </div>
       </header>
@@ -97,27 +104,29 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <div className="grid grid-cols-3 gap-gutter">
       <div className="bg-surface-container-lowest border border-outline-variant rounded p-md">
       <p className="font-label-caps text-label-caps text-secondary mb-base uppercase">Aktif Vardiyalar</p>
-      <p className="font-display-lg text-display-lg text-on-surface">24</p>
+      <p className="font-display-lg text-display-lg text-on-surface">{state.flights.filter(f => f.status === 'assigned' || f.status === 'active').length}</p>
       </div>
       <div className="bg-surface-container-lowest border border-outline-variant rounded p-md">
       <p className="font-label-caps text-label-caps text-secondary mb-base uppercase">Geciken Uçuşlar</p>
-      <p className="font-display-lg text-display-lg text-error">3</p>
+      <p className="font-display-lg text-display-lg text-error">{state.flights.filter(f => f.status === 'delayed').length}</p>
       </div>
       <div className="bg-surface-container-lowest border border-outline-variant rounded p-md">
       <p className="font-label-caps text-label-caps text-secondary mb-base uppercase">Personel Durumu</p>
-      <p className="font-display-lg text-display-lg text-primary">%98</p>
+      <p className="font-display-lg text-display-lg text-primary">%{Math.round((state.crews.filter(c => c.status === 'active').length / Math.max(state.crews.length, 1)) * 100)}</p>
       </div>
       </div>
       </div>
       </main>
       {/* Overlay Backdrop */}
-      <div className="fixed inset-0 bg-on-surface/20 backdrop-blur-sm z-[60] transition-opacity"></div>
+      {drawerOpen && (
+      <div className="fixed inset-0 bg-on-surface/20 backdrop-blur-sm z-[60] transition-opacity" onClick={() => setDrawerOpen(false)}></div>
+      )}
       {/* Right Profile Drawer */}
-      <aside className="fixed right-0 top-0 bottom-0 w-[400px] bg-surface-container-lowest shadow-[-4px_0_24px_rgba(15,23,42,0.08)] z-[70] flex flex-col transform transition-transform duration-300 ease-out border-l border-outline-variant">
+      <aside className={`fixed right-0 top-0 bottom-0 w-[400px] bg-surface-container-lowest shadow-[-4px_0_24px_rgba(15,23,42,0.08)] z-[70] flex flex-col border-l border-outline-variant transform transition-transform duration-300 ease-out ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
       {/* Drawer Header */}
       <div className="flex items-center justify-between px-margin py-md border-b border-outline-variant bg-surface-bright">
       <h3 className="font-title-sm text-title-sm text-on-surface">Profil Paneli</h3>
-      <button className="text-secondary hover:text-on-surface transition-colors flex items-center justify-center w-8 h-8 rounded hover:bg-surface-container">
+      <button className="text-secondary hover:text-on-surface transition-colors flex items-center justify-center w-8 h-8 rounded hover:bg-surface-container" onClick={() => setDrawerOpen(false)}>
       <span className="material-symbols-outlined text-[20px]">close</span>
       </button>
       </div>
@@ -127,7 +136,7 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <div className="p-margin flex flex-col items-center text-center border-b border-outline-variant bg-surface-bright">
       <div className="relative mb-md">
       <img alt="Kaan Yılmaz" className="w-24 h-24 rounded-full object-cover border-4 border-surface-container-lowest shadow-sm" data-alt="A professional headshot of an authoritative male operations manager in a well-lit, modern corporate setting. He is wearing a crisp white shirt and a subtle dark tie. The lighting is high-key and bright, reflecting a clean, corporate light-mode aesthetic. The background is softly blurred to keep the focus sharp on his confident, composed expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBibQ_rbGPSc3MDx8wWTS6QkrNp4ZfrNYrFf8u_FPctPpTvWtVH-LRYC5h0dRRVFEQ8VE2n7rb34M2gxtLRupESuP2lqAc-OWIh7Tj57MIFFLkejO8QMZfsekWmV5s9DLsEzNGE6SaXXClysnj_sbefDCrd0LpkBlsF7Aweet8IuRQmfyEzaQajMBBwKo3PIDuLXWDjgdFV0dT9IWNDHytDWmCa66UgYqDvlCVhmK4z6o4rRFPUaETSCoLiYFltLqQasqgJFIBfgqs" />
-      <button className="absolute bottom-0 right-0 bg-surface-container-lowest border border-outline-variant text-secondary p-1 rounded-full shadow-sm hover:text-primary transition-colors">
+      <button className="absolute bottom-0 right-0 bg-surface-container-lowest border border-outline-variant text-secondary p-1 rounded-full shadow-sm hover:text-primary transition-colors" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined text-[16px]">edit</span>
       </button>
       </div>
@@ -142,11 +151,11 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <div className="p-margin border-b border-outline-variant">
       <p className="font-label-caps text-label-caps text-secondary mb-md uppercase tracking-wider">Hızlı İşlemler</p>
       <div className="flex flex-col gap-sm">
-      <button className="flex items-center gap-sm w-full px-sm py-2 text-left font-body-sm text-body-sm text-on-surface hover:bg-surface-container rounded transition-colors border border-transparent hover:border-outline-variant">
+      <button className="flex items-center gap-sm w-full px-sm py-2 text-left font-body-sm text-body-sm text-on-surface hover:bg-surface-container rounded transition-colors border border-transparent hover:border-outline-variant" onClick={() => navigate('settings')}>
       <span className="material-symbols-outlined text-secondary">lock_reset</span>
                               Şifre Değiştir
                           </button>
-      <button className="flex items-center gap-sm w-full px-sm py-2 text-left font-body-sm text-body-sm text-error hover:bg-error-container hover:text-on-error-container rounded transition-colors border border-transparent">
+      <button className="flex items-center gap-sm w-full px-sm py-2 text-left font-body-sm text-body-sm text-error hover:bg-error-container hover:text-on-error-container rounded transition-colors border border-transparent" onClick={() => navigate('dashboard')}>
       <span className="material-symbols-outlined">logout</span>
                               Oturumu Kapat
                           </button>
@@ -156,7 +165,7 @@ export function ProfilPaneli(props: ProfilPaneliProps) {
       <div className="p-margin">
       <div className="flex items-center justify-between mb-md">
       <p className="font-label-caps text-label-caps text-secondary uppercase tracking-wider">Son Aktiviteler</p>
-      <a className="font-body-sm text-body-sm text-primary hover:underline" href="#">Tümünü Gör</a>
+      <button className="font-body-sm text-body-sm text-primary hover:underline" onClick={() => navigate('pipeline')}>Tümünü Gör</button>
       </div>
       <div className="relative pl-sm">
       {/* Timeline Line */}
